@@ -1,0 +1,20 @@
+.generalButton {
+    padding: 16px 40px;
+    width: fit-content;
+    color: var(--blue);
+    background-color: var(--white);
+    border-radius: 8px;
+    font-size: inherit;
+    font-family: inherit;
+    border: none;
+    &:active{
+        background-color: var(--blue);
+        color: var(--white);
+    }
+}
+@media screen and (max-width: 768px) {
+    .generalButton {
+        padding: 12px 24px;
+        font-size: 12px;
+    }
+}
