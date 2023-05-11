@@ -1,0 +1,45 @@
+---
+data:
+    loginLabel: Логин
+    loginName: login
+    loginType: text
+    passwordLabel: Пароль
+    passwordName: password
+    passwordType: password
+    submitButtonText: Войти
+    submitButtonType: button
+    submitButtonLink: /
+    registeredButtonText: Нет аккаунта?
+    registeredButtonLink: "../Registration/registration.hbs"
+---
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../../../styles/styles.pcss">
+</head>
+<body>
+    <main class="authorization__wrapper">
+        <form>
+            <div class="authorization__card">
+                <div class="authorization__inputs">
+                    {{> components/simpleInput/simpleInput label=data.loginLabel type=data.loginType name=data.loginName }}
+                    {{> components/simpleInput/simpleInput label=data.passwordLabel type=data.passwordType name=data.passwordName }}
+                </div>
+                <div class="authorization__buttons">
+                    {{> components/generalButton/generalButton text=data.submitButtonText type=data.submitButtonType link=data.submitButtonLink }}
+                    {{> components/linkButton/linkButton text=data.registeredButtonText link=data.registeredButtonLink }}
+                </div>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
+
+
+
+
+

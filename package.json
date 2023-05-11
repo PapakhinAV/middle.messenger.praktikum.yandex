@@ -1,0 +1,21 @@
+{
+  "name": "messanger",
+  "version": "1.0.0",
+  "author": "Papakhin Alexander",
+  "license": "MIT",
+  "scripts": {
+    "dev": "rm -rf dist && parcel src/index.hbs --no-cache",
+    "build": "parcel build src/index.hbs",
+    "start": "npm run build && node server.js"
+  },
+  "devDependencies": {
+    "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "parcel": "^2.8.3",
+    "postcss": "^8.2.14",
+    "postcss-nested": "^6.0.1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "handlebars": "^4.7.7"
+  }
+}
