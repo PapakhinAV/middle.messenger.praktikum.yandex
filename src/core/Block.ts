@@ -78,6 +78,9 @@ class Block<P extends Record<string, any> = any> {
 
         Object.assign(this.props, nextProps);
     };
+    getProps = () => {
+            return this.props;
+    };
 
     get element() {
         return this._element;

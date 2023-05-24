@@ -6,7 +6,7 @@ interface IButtonProps {
     type: string
     text: string
     events?: {
-        click?: void
+        click?: ()=> void;
     };
 }
  class Button extends Block<IButtonProps> {

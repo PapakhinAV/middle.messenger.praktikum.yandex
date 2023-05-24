@@ -6,10 +6,11 @@ interface ISimpleInputProps {
     type: string
     value: string
     label?: string
+    error?: string
+    required?: boolean
     events?: {
-        focusin?: (event: PointerEvent)=>void
         focusout?: (event: PointerEvent)=>void
-        click?: (event: PointerEvent)=>void
+        change?: (e: InputEvent)=>void
     }
 }
  class SimpleInput extends Block<ISimpleInputProps> {

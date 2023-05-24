@@ -8,6 +8,11 @@ interface IRowInputProps {
     type: string
     value: string
     error?: string
+    required?: boolean
+    events?: {
+        focusout?: (event: PointerEvent)=>void
+        change?: (e: InputEvent)=>void
+    }
 
 }
  class RowInput extends Block<IRowInputProps> {
@@ -21,6 +26,7 @@ interface IRowInputProps {
              name: this.props.name,
              type: this.props.type,
              value: this.props.value,
+             required: this.props.required
          });
      }
     render(){

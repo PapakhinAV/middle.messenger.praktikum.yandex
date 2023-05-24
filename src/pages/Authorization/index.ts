@@ -3,27 +3,25 @@ import template from './authorization.hbs'
 import SimpleInput from "../../components/SimpleInput";
 import {LinkButton, Button} from "../../components";
 import {ERoutes} from "../../ERoutes";
+import {validators} from "../../utils/validators";
+import {submitValidator} from "../../utils/submitValidator";
+import {getFormValue} from "../../utils/getFormValue";
 class Authorization extends Block {
     constructor() {
         super('main', {});
         this.element?.classList.add("authorization__wrapper")
     }
-    loginValidator(e: PointerEvent, loginElement: Block){
-        console.log(e)
-        const value = (e.target as HTMLInputElement)?.value
-        if(!value || value.length < 3 || value.length > 20) {
-            loginElement.setProps({error: 'Допустимая длина от 3 до 20 символов'})
-        }
-    }
+
     init(){
         this.children.login = new SimpleInput({
             name: 'login',
             type: 'text',
             label: 'Логин',
-            value: 'ffff',
+            value: 'ff',
+            required: true,
             events: {
-                // focusin: (e)=>this.loginValidator(e, this.children.login),
-                focusout: (e)=>this.loginValidator(e, this.children.login)
+                focusout: (e)=>validators.login(e, this.children.login),
+                change: (e)=> this.children.login.setProps({value:(e.target as HTMLInputElement)?.value})
             }
         })
         this.children.password = new SimpleInput({
@@ -31,6 +29,11 @@ class Authorization extends Block {
             type: 'password',
             label: 'Пароль',
             value: '',
+            required: true,
+            events: {
+                focusout: (e)=>validators.password(e, this.children.password),
+                change: (e)=> this.children.password.setProps({value:(e.target as HTMLInputElement)?.value})
+            }
         })
         this.children.registration = new LinkButton({
             text: 'Нет аккаунта?',
@@ -38,8 +41,16 @@ class Authorization extends Block {
         })
         this.children.button = new Button({
             text: 'Войти',
-            link: ERoutes.HOME,
             type: 'button',
+            events: {
+                click: ()=> {
+                    const errors = submitValidator(this.children)
+                    if(!errors){
+                        console.log(getFormValue(this.children))
+                        setTimeout(()=> window.location.pathname = ERoutes.HOME, 3000)
+                    }
+                }
+            }
         })
     }
 
