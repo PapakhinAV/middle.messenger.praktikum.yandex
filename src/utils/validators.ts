@@ -102,6 +102,7 @@ export const validators = {
 
 
         if (fileExtension && !allowedExtensions.includes(fileExtension)) errorMessages.push(`Допустимые расширения: ${allowedExtensions.join(', ')}`);
+        if (fileName.length < 1) errorMessages.push('Необходимо загрузить файл');
 
         let message;
         if(errorMessages.length > 0) {
@@ -120,6 +121,7 @@ export const validators = {
 
         const errorMessages = []
         const RegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        if (value.length < 1) errorMessages.push('не должно быть пустым');
         if (!RegExp.test(value)) errorMessages.push('некорректный адрес электронной почты');
 
         let message;
