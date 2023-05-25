@@ -11,7 +11,8 @@ const mappedValidatorsNames: Record<string, keyof typeof validators> = {
     login: 'login',
     avatar: 'avatar',
     email: 'email',
-    phone: 'phone'
+    phone: 'phone',
+    messageInput: 'message'
 }
 export  function submitValidator (children: Record<string, Block<any>>) {
     const formInputs = Object.keys(children).reduce((acc:{name: string, element: HTMLInputElement}[], el: string)=>{

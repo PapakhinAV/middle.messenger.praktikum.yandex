@@ -27,6 +27,15 @@
             margin-bottom: 0;
         }
     }
+    &__sendBlock {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        padding: 16px;
+        display: grid;
+        column-gap: 16px;
+        grid-template-columns: auto 1fr auto;
+    }
+
     &__chatHeader {
         background-color: var(--card-background);
         border-radius: 8px;
@@ -49,31 +58,5 @@
     &__messages {
         background-color: var(--card-background);
         border-radius: 8px;
-    }
-    &__sendBlock {
-        background-color: var(--card-background);
-        border-radius: 8px;
-        padding: 16px;
-        display: grid;
-        column-gap: 16px;
-        grid-template-columns: auto 1fr auto;
-    }
-    &__messageInput {
-        padding: 0 16px;
-        border-radius: 50px;
-        border: none;
-        outline: none;
-    }
-    &__sendButton {
-        width: 28px;
-        height: 28px;
-        border-radius: 100px;
-        background-color: var(--blue);
-        color: var(--white);
-        border: none;
-        &:active {
-            background-color: var(--white);
-            color: var(--blue);
-        }
     }
 }

@@ -144,4 +144,25 @@ export const validators = {
         }
         return message
     },
+    message: (e: PointerEvent | string, element: Block) => {
+        const value =  typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
+        const isRequired = element.getProps()?.required
+
+        if(!isRequired && !value) {
+            element.setProps({error: ''})
+            return;
+        }
+        const errorMessages = []
+        if (value.length < 1) errorMessages.push('не должно быть пустым');
+
+        let message;
+        if(errorMessages.length > 0) {
+            message = errorMessages.join(', ');
+            element.setProps({error:message})
+        } else {
+            element.setProps({error: ''})
+        }
+        return message
+
+    },
 }

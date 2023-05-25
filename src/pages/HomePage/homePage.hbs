@@ -3,6 +3,7 @@
         <div class="main__profile">
             {{{lkButton}}}
         </div>
+        {{{contacts}}}
     </div>
     <div class="main__chatFeed">
         <div class="main__chatHeader">
@@ -10,12 +11,14 @@
             <div>Имя</div>
             <img alt="" src="./assets/svg/rubbish.svg"/>
         </div>
-        <div class="main__messages"></div>
-        <form>
+        <div class="main__messages">
+            {{{messages}}}
+        </div>
+        <form novalidate>
             <div class="main__sendBlock">
                 <div class="main__attached"></div>
-                <input name="message" class="main__messageInput"/>
-                <button  type="submit" class="main__sendButton">></button>
+                {{{messageInput}}}
+                {{{messageButton}}}
             </div>
         </form>
     </div>

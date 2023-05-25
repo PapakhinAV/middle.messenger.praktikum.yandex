@@ -1,0 +1,23 @@
+<div class="contacts__container">
+    {{#each contacts}}
+        <div id="{{this.id}}" class="contacts__wrapper">
+            <div>
+                {{#if this.photo}}
+                    <img class="contacts__photo" alt="" src="{{this.photo}}"/>
+                {{else}}
+                    <div class="contacts__circle" ></div>
+                {{/if}}
+            </div>
+            <div class="contacts__content">
+                <div class="contacts__name">{{this.name}}</div>
+                <div class="contacts__text">{{this.message}}</div>
+            </div>
+            <div class="contacts__info">
+                <div class="contacts__time">{{this.time}}</div>
+                {{#if this.unread}}
+                    <div class="contacts__unread">{{this.unread}}</div>
+                {{/if}}
+            </div>
+        </div>
+    {{/each}}
+</div>
