@@ -3,6 +3,7 @@
       display: grid;
       height: 100%;
    }
+
    &__card {
       display: grid;
       place-content: center;
@@ -36,6 +37,7 @@
             color: var(--red);
          }
       }
+
       &--blue{
          a {
             font-size: 16px;
@@ -46,9 +48,8 @@
    }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
    .personalInfo {
-
       &__card {
          margin: 25px;
          font-size: 14px;
@@ -61,6 +62,7 @@
          margin-bottom: 16px;
 
       }
+
       &__actions {
          &--red {
             a {
@@ -68,6 +70,7 @@
 
             }
          }
+
          &--blue{
             a {
                font-size: 14px;

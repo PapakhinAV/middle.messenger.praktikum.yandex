@@ -1,10 +1,10 @@
-export {default as LinkButtonWithArrow} from './LinkButton'
-export {default as ErrorPageContent} from './ErrorPageContent'
-export {default as LinkButton} from './LinkButton'
-export {default as SimpleInput} from './SimpleInput'
-export {default as Button} from './Button'
-export {default as Avatar} from './Avatar'
-export {default as FileInput} from './FileInput'
-export {default as Messages} from './Messages'
-export {default as MessageInput} from './MessageInput'
-export {default as Contacts} from './Contacts'
+export { default as LinkButtonWithArrow } from './LinkButton';
+export { default as ErrorPageContent } from './ErrorPageContent';
+export { default as LinkButton } from './LinkButton';
+export { default as SimpleInput } from './SimpleInput';
+export { default as Button } from './Button';
+export { default as Avatar } from './Avatar';
+export { default as FileInput } from './FileInput';
+export { default as Messages } from './Messages';
+export { default as MessageInput } from './MessageInput';
+export { default as Contacts } from './Contacts';

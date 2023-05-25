@@ -28,27 +28,31 @@
         overflow: hidden;
         transition: .3s;
     }
+
     &__error {
         color: var(--redDark);
         margin-top: 4px;
         font-size: 12px;
     }
 }
+
 .simpleInput__item:focus~.simpleInput__label,
 .simpleInput__item:not(:placeholder-shown)~.simpleInput__label {
     top: -10px;
     font-size: 10px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
     .simpleInput{
         &__wrapper{
             width: 150px;
         }
+
         &__item {
             font-size: 12px;
             width: 150px;
         }
+
         &__label {
             font-size: 12px;
         }

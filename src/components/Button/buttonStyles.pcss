@@ -7,12 +7,14 @@
     font-size: inherit;
     font-family: inherit;
     border: none;
+
     &:active{
         background-color: var(--blue);
         color: var(--white);
     }
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (width <= 768px) {
     .generalButton {
         padding: 12px 24px;
         font-size: 12px;
