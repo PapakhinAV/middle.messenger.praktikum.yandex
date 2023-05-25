@@ -1,15 +1,15 @@
 import Block from '../../core/Block'
 import ErrorPageContent from "../../components/ErrorPageContent";
-import template from './page404.hbs'
+import template from './page500.hbs'
 import {ERoutes} from "../../ERoutes";
 class page404 extends Block {
     constructor() {
-        super('main', {});
+        super({});
         this.element?.setAttribute('style', 'height: 100%')
     }
 
     init(){
-        this.children.page404 = new ErrorPageContent({
+        this.children.page500 = new ErrorPageContent({
             title: '500',
             description: 'Скоро починим...',
             buttonLink: ERoutes.HOME,

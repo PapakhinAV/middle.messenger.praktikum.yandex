@@ -7,8 +7,7 @@ interface IAvatarProps {
 }
  class Avatar extends Block<IAvatarProps> {
     constructor(props: IAvatarProps) {
-        super('div', props);
-        this.element?.classList.add("avatar__wrapper")
+        super(props);
     }
 
     render(){

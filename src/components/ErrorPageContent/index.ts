@@ -10,8 +10,7 @@ interface IErrorPageContentProps {
 }
 class ErrorPageContent extends Block<IErrorPageContentProps> {
     constructor(props: IErrorPageContentProps) {
-        super('div', props);
-        this.element?.classList.add("errorPage__wrapper")
+        super(props);
     }
 
     init(){

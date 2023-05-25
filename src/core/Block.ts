@@ -15,13 +15,12 @@ class Block<P extends Record<string, any> = any> {
     protected children: Record<string, Block>;
     private eventBus: () => EventBus;
     private _element: HTMLElement | null = null;
-    private _meta: { tagName: string; props: P; };
+    private _meta: { props: P; };
 
-    constructor(tagName = "div", propsWithChildren: P) {
+    constructor( propsWithChildren: P) {
         const eventBus = new EventBus();
         const {props, children} = this._getChildrenAndProps(propsWithChildren)
         this._meta = {
-            tagName,
             props: props as P
         };
 
@@ -41,7 +40,7 @@ class Block<P extends Record<string, any> = any> {
     }
 
     _createResources() {
-        const { tagName } = this._meta;
+        const  tagName = "div"
         this._element = this._createDocumentElement(tagName);
     }
 
@@ -55,10 +54,6 @@ class Block<P extends Record<string, any> = any> {
 
     _componentDidMount() {
         this.componentDidMount();
-
-        // Object.values(this.children).forEach(child => {
-        //     child.dispatchComponentDidMount();
-        // });
     }
     componentDidMount() {} // Может переопределять пользователь, необязательно трогать
 
@@ -88,8 +83,9 @@ class Block<P extends Record<string, any> = any> {
 
     private _render() {
         const block = this.render();
-        this._element!.innerHTML = ''
-        this._element!.append(block);
+        const newElement = block.firstElementChild as HTMLElement
+        this._element!.replaceWith(newElement)
+        this._element! = newElement
         this._addEvents();
     }
 

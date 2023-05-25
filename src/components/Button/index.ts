@@ -6,15 +6,13 @@ interface IButtonProps {
     type: string
     text: string
     events?: {
-        click?: ()=> void;
+        click?: (e: Event)=> void;
     };
 }
  class Button extends Block<IButtonProps> {
     constructor(props: IButtonProps) {
-        super('button', props);
-        this.element?.classList.add("generalButton")
+        super(props);
         this.props.link && this.element?.setAttribute('onclick', `location.href='${this.props.link}'`)
-        this.element?.setAttribute('type', this.props.type)
     }
 
     render(){

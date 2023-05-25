@@ -6,8 +6,7 @@ import photo from '../../assets/svg/photo.svg'
 import RowInfo from "../../components/RowInfo";
 class Authorization extends Block {
     constructor() {
-        super('main', {});
-        this.element?.classList.add("personalInfo__wrapper")
+        super({});
     }
     init(){
         this.children.avatar = new Avatar({

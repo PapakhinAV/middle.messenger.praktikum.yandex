@@ -8,8 +8,7 @@ import {submitValidator} from "../../utils/submitValidator";
 import {getFormValue} from "../../utils/getFormValue";
 class Authorization extends Block {
     constructor() {
-        super('main', {});
-        this.element?.classList.add("authorization__wrapper")
+        super({});
     }
 
     init(){
@@ -41,9 +40,10 @@ class Authorization extends Block {
         })
         this.children.button = new Button({
             text: 'Войти',
-            type: 'button',
+            type: 'submit',
             events: {
-                click: ()=> {
+                click: (e)=> {
+                    e.preventDefault()
                     const errors = submitValidator(this.children)
                     if(!errors){
                         console.log(getFormValue(this.children))

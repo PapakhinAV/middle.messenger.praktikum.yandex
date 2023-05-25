@@ -4,7 +4,7 @@ import template from './page404.hbs'
 import {ERoutes} from "../../ERoutes";
 class page404 extends Block {
     constructor() {
-        super('main', {});
+        super({});
         this.element?.setAttribute('style', 'height: 100%')
     }
 

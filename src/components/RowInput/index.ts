@@ -17,8 +17,7 @@ interface IRowInputProps {
 }
  class RowInput extends Block<IRowInputProps> {
     constructor(props: IRowInputProps) {
-        super('div', props);
-        this.element?.classList.add("rowInput")
+        super( props);
     }
 
      init(){

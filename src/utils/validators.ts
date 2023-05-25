@@ -4,8 +4,10 @@ export const validators = {
         const value = typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
         const isRequired = element.getProps()?.required
 
-        if(!isRequired && !value) return
-
+        if(!isRequired && !value) {
+            element.setProps({error: ''})
+            return;
+        }
         const RegExp = /^(?=.*[a-zA-Z])(?!.*[\s])(?!.*[-_]{2})[a-zA-Z0-9-_]{3,20}$/;
         const errorMessages = []
         if (value.length < 3 || value.length > 20) errorMessages.push('значение должно быть от 3 до 20 символов');
@@ -28,9 +30,10 @@ export const validators = {
     password: (e: PointerEvent | string, element: Block): string | undefined => {
         const value =  typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
         const isRequired = element.getProps()?.required
-
-        if(!isRequired && !value) return
-
+        if(!isRequired && !value) {
+            element.setProps({error: ''})
+            return;
+        }
         const errorMessages = []
         if (value.length < 8 || value.length > 40) errorMessages.push('значение должно быть от 8 до 40 символов');
         if (!/[A-Z]/.test(value)) errorMessages.push('должно содержать хотя бы одну заглавную букву');
@@ -41,7 +44,7 @@ export const validators = {
             message = errorMessages.join(', ');
             element.setProps({error:message})
         } else {
-            element.setProps({error:''})
+            element.setProps({error: ''})
         }
         return message
     },
@@ -49,8 +52,10 @@ export const validators = {
         const value =  typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
         const isRequired = element.getProps()?.required
 
-        if(!isRequired && !value) return
-
+        if(!isRequired && !value) {
+            element.setProps({error: ''})
+            return;
+        }
         const errorMessages = []
         const uppercaseRegExp = /^[A-ZА-ЯЁ]/;
         const alphanumericRegExp = /^[a-zA-ZА-ЯЁа-яё-]*$/;
@@ -73,8 +78,10 @@ export const validators = {
         const value =  typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
         const isRequired = element.getProps()?.required
 
-        if(!isRequired && !value) return
-
+        if(!isRequired && !value) {
+            element.setProps({error: ''})
+            return;
+        }
         const errorMessages = []
         const RegExp = /^\+?\d+$/;
 
@@ -86,30 +93,32 @@ export const validators = {
             message = errorMessages.join(', ');
             element.setProps({error:message})
         } else {
-            element.setProps({error:''})
+            element.setProps({error: ''})
         }
         return message
     },
     avatar: (e: PointerEvent | string, element: Block) => {
-        const fileName =  typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
+        const value =  typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
         const isRequired = element.getProps()?.required
 
-        if(!isRequired && !fileName) return
-
+        if(!isRequired && !value) {
+            element.setProps({error: ''})
+            return;
+        }
         const errorMessages = []
         const allowedExtensions = ['jpg', 'jpeg', 'png'];
-        const fileExtension = fileName?.split('.')?.pop()?.toLowerCase();
+        const fileExtension = value?.split('.')?.pop()?.toLowerCase();
 
 
         if (fileExtension && !allowedExtensions.includes(fileExtension)) errorMessages.push(`Допустимые расширения: ${allowedExtensions.join(', ')}`);
-        if (fileName.length < 1) errorMessages.push('Необходимо загрузить файл');
+        if (value.length < 1) errorMessages.push('Необходимо загрузить файл');
 
         let message;
         if(errorMessages.length > 0) {
             message = errorMessages.join(', ');
             element.setProps({error:message})
         } else {
-            element.setProps({error:''})
+            element.setProps({error: ''})
         }
         return message
     },
@@ -117,8 +126,10 @@ export const validators = {
         const value =  typeof  e ==='string'? e: (e.target as HTMLInputElement)?.value
         const isRequired = element.getProps()?.required
 
-        if(!isRequired && !value) return
-
+        if(!isRequired && !value) {
+            element.setProps({error: ''})
+            return;
+        }
         const errorMessages = []
         const RegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         if (value.length < 1) errorMessages.push('не должно быть пустым');
@@ -129,7 +140,7 @@ export const validators = {
             message = errorMessages.join(', ');
             element.setProps({error:message})
         } else {
-            element.setProps({error:''})
+            element.setProps({error: ''})
         }
         return message
     },

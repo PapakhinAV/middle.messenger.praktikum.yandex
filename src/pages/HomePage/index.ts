@@ -5,8 +5,7 @@ import arrowRightBase from '../../assets/svg/arrowRightBase.svg';
 import {ERoutes} from "../../ERoutes";
 class HomePage extends Block {
     constructor() {
-        super('main', {});
-        this.element?.classList.add("main__wrapper")
+        super( {});
     }
     init(){
         this.children.lkButton = new LinkButton({

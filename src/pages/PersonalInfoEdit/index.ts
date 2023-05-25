@@ -9,8 +9,7 @@ import {getFormValue} from "../../utils/getFormValue";
 import {validators} from "../../utils/validators";
 class Authorization extends Block {
     constructor() {
-        super('main', {});
-        this.element?.classList.add("personalInfoEdit__wrapper")
+        super({});
     }
 
     init(){
@@ -112,9 +111,10 @@ class Authorization extends Block {
         })
         this.children.saveButton = new Button({
             text: 'Сохранить',
-            type: 'button',
+            type: 'submit',
             events: {
-                click: ()=> {
+                click: (e)=> {
+                    e.preventDefault()
                     const errors = submitValidator(this.children)
                     if(!errors){
                         console.log(getFormValue(this.children))

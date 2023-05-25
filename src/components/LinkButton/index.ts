@@ -8,9 +8,7 @@ interface ILinkButtonProps {
 }
  class LinkButton extends Block<ILinkButtonProps> {
     constructor(props: ILinkButtonProps) {
-        super('a', props);
-        this.element?.setAttribute('href', this.props.link)
-        this.element?.classList.add("linkButton")
+        super(props);
     }
 
     render(){

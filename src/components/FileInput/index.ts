@@ -13,8 +13,7 @@ interface IFileInputProps {
 }
  class FileInput extends Block<IFileInputProps> {
     constructor(props: IFileInputProps) {
-        super('div', props);
-        this.element?.classList.add("fileInput")
+        super( props);
     }
 
     render(){

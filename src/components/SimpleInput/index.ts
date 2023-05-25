@@ -14,9 +14,8 @@ interface ISimpleInputProps {
     }
 }
  class SimpleInput extends Block<ISimpleInputProps> {
-    constructor(props: ISimpleInputProps) {
-        super('div', props);
-        this.element?.classList.add("simpleInput__wrapper")
+    constructor({required = false, ...otherProps}: ISimpleInputProps) {
+        super( {required, ...otherProps});
     }
 
     render(){

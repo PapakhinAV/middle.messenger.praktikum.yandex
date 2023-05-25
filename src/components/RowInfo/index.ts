@@ -7,8 +7,7 @@ interface IRowInfoProps {
 }
  class RowInfo extends Block<IRowInfoProps> {
     constructor(props: IRowInfoProps) {
-        super('div', props);
-        this.element?.classList.add("rowInfo")
+        super( props);
     }
 
     render(){
