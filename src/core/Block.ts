@@ -21,6 +21,10 @@ class Block<P extends Record<string, any> = any> {
 
   private _meta: { props: P; };
 
+  private renderQueue: (() => void)[] = [];
+
+  private rendering: boolean = false;
+
   constructor(propsWithChildren: P) {
     const eventBus = new EventBus();
     const { props, children } = this._getChildrenAndProps(propsWithChildren);
@@ -87,11 +91,24 @@ class Block<P extends Record<string, any> = any> {
   }
 
   private _render() {
+    if (this.rendering) {
+      this.renderQueue.push(() => this._render());
+      return;
+    }
+    this.rendering = true;
+
     const block = this.render();
     const newElement = block.firstElementChild as HTMLElement;
-        this._element!.replaceWith(newElement);
-        this._element! = newElement;
-        this._addEvents();
+    this._element!.replaceWith(newElement);
+    this._element! = newElement;
+    this._addEvents();
+
+    this.rendering = false;
+
+    if (this.renderQueue.length > 0) {
+      const nextRender = this.renderQueue.shift();
+      nextRender?.();
+    }
   }
 
   protected render(): DocumentFragment {
@@ -133,7 +150,12 @@ class Block<P extends Record<string, any> = any> {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName: string) => {
-      this._element?.addEventListener(eventName, events[eventName]);
+      if (typeof events[eventName] === 'function') {
+        this._element?.addEventListener(eventName, events[eventName]);
+      } else {
+        const { searchParam, handler } = events[eventName];
+        this._element?.querySelector(searchParam).addEventListener(eventName, handler);
+      }
     });
   }
 
@@ -159,7 +181,8 @@ class Block<P extends Record<string, any> = any> {
     const temp = document.createElement('template');
 
     temp.innerHTML = html;
-    Object.entries(this.children).forEach(([, component]) => {
+
+    const replaceStub = (component: Block) => {
       const stub = temp.content.querySelector(`[data-id="${component.id}"]`);
 
       if (!stub) {
@@ -169,6 +192,14 @@ class Block<P extends Record<string, any> = any> {
       component.getContent()?.append(...Array.from(stub.childNodes));
 
       stub.replaceWith(component.getContent()!);
+    };
+
+    Object.entries(this.children).forEach(([, component]) => {
+      if (Array.isArray(component)) {
+        component.forEach(replaceStub);
+      } else {
+        replaceStub(component);
+      }
     });
 
     return temp.content;

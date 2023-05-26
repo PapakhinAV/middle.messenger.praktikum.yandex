@@ -1,7 +1,5 @@
-import Block from '../../core/Block'
-import template from './messageInput.hbs'
-
-
+import Block from '../../core/Block';
+import template from './messageInput.hbs';
 
 export interface ISendMessageProps {
     required: boolean,
@@ -9,19 +7,23 @@ export interface ISendMessageProps {
     value: string
     error?: string
     events?: {
-        focusout?: (event: PointerEvent)=>void
         change?: (e: InputEvent)=>void
+        blur?: {
+          searchParam: string
+          handler: (event: PointerEvent)=>void
+        }
+        keydown: (e:KeyboardEvent)=>void
    }
 
 }
- class MessageInput extends Block<ISendMessageProps> {
-    constructor(props: ISendMessageProps) {
-        super( props);
-    }
+class MessageInput extends Block<ISendMessageProps> {
+  constructor(props: ISendMessageProps) {
+    super(props);
+  }
 
-    render(){
-        return this.compile(template, this.props)
-    }
+  render() {
+    return this.compile(template, this.props);
+  }
 }
 
-export default MessageInput
+export default MessageInput;
