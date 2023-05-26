@@ -6,10 +6,10 @@ const PORT = 3000;
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('/', (req, res)=>{
-    res.sendFile(`${__dirname}/dist/index.html`)
-})
+app.get('/*', (req, res) => {
+  res.sendFile(`${__dirname}/dist/index.html`);
+});
 
-app.listen(PORT, function () {
-    console.log(`Server is starting on port ${PORT}!`);
+app.listen(PORT, () => {
+  console.log(`Server is starting on port ${PORT}!`);
 });

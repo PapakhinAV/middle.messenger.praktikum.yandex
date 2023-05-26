@@ -25,6 +25,8 @@ class Block<P extends Record<string, any> = any> {
 
   private rendering: boolean = false;
 
+  private eventListeners: { eventName: string, listener: ()=>{} }[] = [];
+
   constructor(propsWithChildren: P) {
     const eventBus = new EventBus();
     const { props, children } = this._getChildrenAndProps(propsWithChildren);
@@ -74,7 +76,9 @@ class Block<P extends Record<string, any> = any> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-  protected componentDidUpdate(oldProps: Record<string, any>, newProps: Record<string, any>) { return true; }
+  protected componentDidUpdate(oldProps: Record<string, any>, newProps: Record<string, any>) {
+    return true;
+  }
 
   setProps = (nextProps: any) => {
     if (!nextProps) {
@@ -98,6 +102,7 @@ class Block<P extends Record<string, any> = any> {
     this.rendering = true;
 
     const block = this.render();
+    this._removeEvents();
     const newElement = block.firstElementChild as HTMLElement;
     this._element!.replaceWith(newElement);
     this._element! = newElement;
@@ -151,12 +156,23 @@ class Block<P extends Record<string, any> = any> {
 
     Object.keys(events).forEach((eventName: string) => {
       if (typeof events[eventName] === 'function') {
-        this._element?.addEventListener(eventName, events[eventName]);
+        const listener = events[eventName].bind(this);
+        this._element?.addEventListener(eventName, listener);
+        this.eventListeners.push({ eventName, listener });
       } else {
         const { searchParam, handler } = events[eventName];
-        this._element?.querySelector(searchParam).addEventListener(eventName, handler);
+        const listener = handler.bind(this);
+        this._element?.querySelector(searchParam)?.addEventListener(eventName, listener);
+        this.eventListeners.push({ eventName, listener });
       }
     });
+  }
+
+  private _removeEvents() {
+    this.eventListeners.forEach(({ eventName, listener }) => {
+      this._element?.removeEventListener(eventName, listener);
+    });
+    this.eventListeners = [];
   }
 
   private _getChildrenAndProps(childrenAndProps: P): { props: P, children: Record<string, Block>} {

@@ -5,18 +5,20 @@ export type TOptions = {
     headers?: Record<string, string>
 };
 
+type HTTPMethod = (url: string, options?: TOptions) => Promise<unknown>
+
 class HTTPTransport {
-  get = (url: string, options: TOptions) => this.request(
-    url.concat(this.queryStringify(options.data)),
+  get: HTTPMethod = (url, options) => this.request(
+    url.concat(this.queryStringify(options?.data)),
     { ...options, method: this.METHODS.GET },
-    options.timeout,
+    options?.timeout,
   );
 
-  post = (url: string, options: TOptions) => this.request(url, { ...options, method: this.METHODS.POST }, options.timeout);
+  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: this.METHODS.POST }, options?.timeout);
 
-  put = (url: string, options: TOptions) => this.request(url, { ...options, method: this.METHODS.PUT }, options.timeout);
+  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: this.METHODS.PUT }, options?.timeout);
 
-  delete = (url: string, options: TOptions) => this.request(url, { ...options, method: this.METHODS.DELETE }, options.timeout);
+  delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: this.METHODS.DELETE }, options?.timeout);
 
   METHODS = {
     GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
