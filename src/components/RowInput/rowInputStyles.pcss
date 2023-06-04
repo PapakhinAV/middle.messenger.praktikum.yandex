@@ -1,0 +1,34 @@
+.rowInput {
+    font-size: inherit;
+    font-family: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__input {
+        width: 280px;
+
+    }
+
+    &__error {
+        color: var(--redDark);
+        margin-top: 4px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (width <= 768px) {
+    .rowInput {
+        flex-direction: column;
+
+        &__title {
+            font-size: 10px;
+            margin-bottom: 8px;
+        }
+
+        &__input {
+                width: 150px;
+
+        }
+    }
+}

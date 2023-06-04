@@ -1,0 +1,8 @@
+<div class="messages__container">
+    {{#each messages}}
+        <div id="{{this.id}}" class="message__wrapper message__{{this.type}}">
+            <div class="message__text">{{this.text}}</div>
+            <div class="message__time">{{this.time}}</div>
+        </div>
+    {{/each}}
+</div>

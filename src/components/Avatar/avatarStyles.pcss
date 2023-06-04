@@ -1,0 +1,40 @@
+.avatar {
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 24px;
+        align-items: center;
+    }
+
+    &__logo {
+        height: 130px;
+        width: 130px;
+        border-radius: 100px;
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 70%;
+            height: 70%;
+        }
+    }
+
+    &__name {
+        font-size: 16px;
+    }
+}
+
+@media screen and (width <= 768px) {
+    .avatar {
+        &__wrapper {
+            row-gap: 16px;
+        }
+
+        &__logo {
+           height: 65px;
+           width: 65px;
+       }
+    }
+}
