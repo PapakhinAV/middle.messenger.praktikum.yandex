@@ -74,6 +74,7 @@ function getParams(data: PlainObject | [], parentKey?: string) {
 }
 
 function queryString(data: PlainObject) {
+  if (!data) return '';
   if (!isPlainObject(data)) {
     throw new Error('input must be an object');
   }

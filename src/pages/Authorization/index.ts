@@ -2,10 +2,13 @@ import Block from '../../core/Block';
 import template from './authorization.hbs';
 import SimpleInput from '../../components/SimpleInput';
 import { LinkButton, Button } from '../../components';
-import { ERoutes } from '../../ERoutes';
+import { ERoutes } from '../../core/Router/ERoutes';
 import { validators } from '../../utils/validators';
 import { submitValidator } from '../../utils/submitValidator';
 import { getFormValue } from '../../utils/getFormValue';
+import styles from './authorizationStyles.module.pcss';
+import AuthController from '../../controllers/AuthController';
+import { SignupData } from '../../api/authApi';
 
 class Authorization extends Block {
   constructor() {
@@ -17,7 +20,7 @@ class Authorization extends Block {
       name: 'login',
       type: 'text',
       label: 'Логин',
-      value: 'ff',
+      value: '',
       required: true,
       events: {
         focusout: (e) => validators.login(e, this.children.login),
@@ -47,8 +50,7 @@ class Authorization extends Block {
           e.preventDefault();
           const errors = submitValidator(this.children);
           if (!errors) {
-            console.log(getFormValue(this.children));
-            setTimeout(() => window.location.pathname = ERoutes.HOME, 3000);
+            AuthController.signin(getFormValue(this.children) as SignupData);
           }
         },
       },
@@ -56,7 +58,7 @@ class Authorization extends Block {
   }
 
   render() {
-    return this.compile(template, this.props);
+    return this.compile(template, { ...this.props, styles });
   }
 }
 

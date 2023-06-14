@@ -2,7 +2,7 @@ import Block from '../../core/Block';
 import template from './homePage.hbs';
 import LinkButton from '../../components/LinkButton';
 import arrowRightBase from '../../assets/svg/arrowRightBase.svg';
-import { ERoutes } from '../../ERoutes';
+import { ERoutes } from '../../core/Router/ERoutes';
 import { IMessage } from '../../components/Messages';
 import { Messages, MessageInput } from '../../components';
 import { validators } from '../../utils/validators';
@@ -10,6 +10,9 @@ import { submitValidator } from '../../utils/submitValidator';
 import { getFormValue } from '../../utils/getFormValue';
 import SendMessageIButton from '../../components/SendMessageIButton';
 import Contacts from '../../components/Contacts';
+import { withStore } from '../../core/Store';
+import { User } from '../../api/authApi';
+import AuthController from "../../controllers/AuthController";
 
 const messages: IMessage[] = [
   {
@@ -42,12 +45,14 @@ const contacts = [
     unread: 0,
   },
 ];
-class HomePage extends Block {
+class HomePageBase extends Block {
   constructor() {
     super({});
   }
 
   init() {
+    AuthController.fetchUser();
+
     this.children.lkButton = new LinkButton({
       text: 'Профиль',
       link: ERoutes.PROFILE,
@@ -95,5 +100,9 @@ class HomePage extends Block {
     return this.compile(template, this.props);
   }
 }
+
+const withUser = withStore<User>((state) => ({ ...state.user }));
+
+const HomePage = withUser(HomePageBase) as typeof Block;
 
 export default HomePage;

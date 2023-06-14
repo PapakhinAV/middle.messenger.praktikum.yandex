@@ -1,36 +1,46 @@
+import queryStringify from './queryStringify';
+
 export type TOptions = {
-    method: string;
     data?: any;
     timeout?: number
     headers?: Record<string, string>
 };
 
-type HTTPMethod = (url: string, options?: TOptions) => Promise<unknown>
-
 class HTTPTransport {
-  get: HTTPMethod = (url, options) => this.request(
-    url.concat(this.queryStringify(options?.data)),
-    { ...options, method: this.METHODS.GET },
-    options?.timeout,
-  );
+  protected API_URL = 'https://ya-praktikum.tech/api/v2';
 
-  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: this.METHODS.POST }, options?.timeout);
+  protected endpoint: string;
 
-  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: this.METHODS.PUT }, options?.timeout);
+  constructor(endpoint: string, API_URL?: string) {
+    if (API_URL) this.API_URL = API_URL;
+    this.endpoint = `${this.API_URL}${endpoint}`;
+  }
 
-  delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: this.METHODS.DELETE }, options?.timeout);
+  public get<Response>(url: string, options?: TOptions): Promise<Response> {
+    return this.request<Response>(
+      (this.endpoint + url).concat(queryStringify(options?.data)),
+      { ...options, method: this.METHODS.GET },
+      options?.timeout,
+    );
+  }
 
-  METHODS = {
+  public post<Response>(url: string, options?: TOptions): Promise<Response> {
+    return this.request((this.endpoint + url), { ...options, method: this.METHODS.POST }, options?.timeout);
+  }
+
+  public put<Response>(url: string, options?: TOptions): Promise<Response> {
+    return this.request((this.endpoint + url), { ...options, method: this.METHODS.PUT }, options?.timeout);
+  }
+
+  public delete<Response>(url: string, options?: TOptions): Promise<Response> {
+    return this.request((this.endpoint + url), { ...options, method: this.METHODS.DELETE }, options?.timeout);
+  }
+
+  private METHODS = {
     GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
   };
 
-  queryStringify = (data: any) => {
-    if (typeof data !== 'object') throw new Error('Data must be object');
-
-    return Object.keys(data)?.reduce((str, el) => `${str}${el}=${data[el].toString()}&`, '?').slice(0, -1);
-  };
-
-  request = (url: string, options: TOptions, timeout = 5000) => {
+  private request<Response>(url: string, options: TOptions & { method: string}, timeout = 5000): Promise<Response> {
     const { method, data, headers } = options;
 
     return new Promise((resolve, reject) => {
@@ -43,14 +53,25 @@ class HTTPTransport {
 
       xhr.open(method, url);
 
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
+
       if (headers) {
         Object.entries(headers)?.forEach(([header, value]) => {
           xhr.setRequestHeader(header, value);
         });
       }
 
-      xhr.onload = function () {
-        resolve(xhr);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status < 400) {
+            resolve(xhr.response);
+          } else {
+            reject(xhr.response);
+          }
+        }
       };
 
       xhr.onabort = reject;
@@ -62,10 +83,10 @@ class HTTPTransport {
       if (method === this.METHODS.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(data);
+        xhr.send(JSON.stringify(data));
       }
     });
-  };
+  }
 }
 
 export default HTTPTransport;

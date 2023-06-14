@@ -1,19 +1,17 @@
-type PlainObject<T = unknown> = {
-  [k in string]: T;
-};
 
-function isPlainObject(value: unknown): value is PlainObject {
+
+function isPlainObject(value: unknown): value is Record<string, any> {
   return typeof value === 'object'
     && value !== null
     && value.constructor === Object
     && Object.prototype.toString.call(value) === '[object Object]';
 }
 
-function isArrayOrObject(value: unknown): value is ([] | PlainObject) {
+function isArrayOrObject(value: unknown): value is ([] | Record<string, any>) {
   return isPlainObject(value) || Array.isArray(value);
 }
 
-function isEqual(lhs: PlainObject, rhs: PlainObject) {
+function isObjectsEqual(lhs: Record<string, any>, rhs: Record<string, any>) {
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
     return false;
   }
@@ -26,7 +24,7 @@ function isEqual(lhs: PlainObject, rhs: PlainObject) {
       // И TypeScript это обрабатывает
 
       // @ts-ignore
-      if (isEqual(value, rightValue)) {
+      if (isObjectsEqual(value, rightValue)) {
         // eslint-disable-next-line no-continue
         continue;
       }
@@ -41,4 +39,4 @@ function isEqual(lhs: PlainObject, rhs: PlainObject) {
   return true;
 }
 
-export default isEqual;
+export default isObjectsEqual;
