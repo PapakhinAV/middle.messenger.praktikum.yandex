@@ -62,6 +62,7 @@ function getKey(key: string, parentKey?: string) {
 function getParams(data: PlainObject | [], parentKey?: string) {
   const result: [string, string][] = [];
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of Object.entries(data)) {
     if (isArrayOrObject(value)) {
       result.push(...getParams(value, getKey(key, parentKey)));

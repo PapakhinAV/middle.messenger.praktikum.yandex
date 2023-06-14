@@ -31,20 +31,22 @@ export class AuthAPI extends BaseAPI {
     super('/auth');
   }
 
+  protected headers = { 'Content-Type': 'application/json' };
+
   signin(data: SigninData) {
-    return this.http.post('/signin', { data });
+    return this.http.post('/signin', { data, headers: this.headers });
   }
 
   signup(data: SignupData) {
-    return this.http.post('/signup', { data });
+    return this.http.post('/signup', { data, headers: this.headers });
   }
 
   request(): Promise<User> {
-    return this.http.get<User>('/user');
+    return this.http.get<User>('/user', { headers: this.headers });
   }
 
   logout() {
-    return this.http.post('/logout');
+    return this.http.post('/logout', { headers: this.headers });
   }
 }
 

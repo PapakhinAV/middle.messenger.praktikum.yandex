@@ -4,7 +4,6 @@ import {
   Button, Avatar, FileInput, LinkButton,
 } from '../../components';
 import RowInput from '../../components/RowInput';
-import { ERoutes } from '../../core/Router/ERoutes';
 import { submitValidator } from '../../utils/submitValidator';
 import { getFormValue } from '../../utils/getFormValue';
 import { validators } from '../../utils/validators';
@@ -12,6 +11,9 @@ import { withStore } from '../../core/Store';
 import { User } from '../../api/authApi';
 import AuthController from '../../controllers/AuthController';
 import router from '../../core/Router/Router';
+import UserController from '../../controllers/UserController';
+import { IChangePasswordData, IChangeUserData } from '../../api/userApi';
+import styles from './personalInfoEditStyles.module.pcss'
 
 class PersonalInfoEditBase extends Block<User> {
   constructor(props:User) {
@@ -27,6 +29,15 @@ class PersonalInfoEditBase extends Block<User> {
     this.children.avatar = new FileInput({
       text: 'Обновить фото',
       name: 'avatar',
+      events: {
+        change: (e) => {
+          const target = e.target as HTMLInputElement;
+          if (target.files && target.files.length > 0) {
+            const file = target.files[0];
+            UserController.updateAvatar(file);
+          }
+        },
+      },
     });
     this.children.email = new RowInput({
       placeholder: 'Почта',
@@ -96,8 +107,8 @@ class PersonalInfoEditBase extends Block<User> {
     });
 
     this.children.oldPassword = new RowInput({
-      placeholder: 'Пароль',
       value: '',
+      placeholder: 'Текущий пароль',
       name: 'oldPassword',
       type: 'password',
       required: true,
@@ -108,6 +119,7 @@ class PersonalInfoEditBase extends Block<User> {
     });
     this.children.newPassword = new RowInput({
       value: '',
+      placeholder: 'Новый пароль',
       name: 'newPassword',
       type: 'password',
       required: true,
@@ -119,13 +131,37 @@ class PersonalInfoEditBase extends Block<User> {
     this.children.saveButton = new Button({
       text: 'Сохранить',
       type: 'submit',
+      size: 'small',
       events: {
         click: (e) => {
           e.preventDefault();
-          const errors = submitValidator(this.children);
+          const currentFieldsNames = ['email', 'login', 'firstName', 'secondName', 'chatName', 'phone'];
+          const currentFields = Object.fromEntries(
+            Object.entries(this.children).filter(([key]) => currentFieldsNames.includes(key)),
+          );
+
+          const errors = submitValidator(currentFields);
           if (!errors) {
-            console.log(getFormValue(this.children));
-            setTimeout(() => window.location.pathname = ERoutes.PROFILE, 3000);
+            UserController.updateUser(getFormValue(currentFields) as IChangeUserData);
+          }
+        },
+      },
+    });
+    this.children.savePasswordButton = new Button({
+      text: 'Изменить',
+      type: 'submit',
+      size: 'small',
+      events: {
+        click: (e) => {
+          e.preventDefault();
+          const currentFieldsNames = ['oldPassword', 'newPassword'];
+          const currentFields = Object.fromEntries(
+            Object.entries(this.children).filter(([key]) => currentFieldsNames.includes(key)),
+          );
+
+          const errors = submitValidator(currentFields);
+          if (!errors) {
+            UserController.updatePassword(getFormValue(currentFields) as IChangePasswordData);
           }
         },
       },
@@ -142,7 +178,7 @@ class PersonalInfoEditBase extends Block<User> {
   }
 
   render() {
-    return this.compile(template, this.props);
+    return this.compile(template, { ...this.props, styles});
   }
 }
 

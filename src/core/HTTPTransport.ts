@@ -1,4 +1,4 @@
-import queryStringify from './queryStringify';
+import queryStringify from '../utils/queryStringify';
 
 export type TOptions = {
     data?: any;
@@ -53,8 +53,6 @@ class HTTPTransport {
 
       xhr.open(method, url);
 
-      xhr.setRequestHeader('Content-Type', 'application/json');
-
       xhr.withCredentials = true;
       xhr.responseType = 'json';
 
@@ -82,6 +80,8 @@ class HTTPTransport {
 
       if (method === this.METHODS.GET || !data) {
         xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
       } else {
         xhr.send(JSON.stringify(data));
       }

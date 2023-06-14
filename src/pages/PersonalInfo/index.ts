@@ -7,6 +7,7 @@ import { withStore } from '../../core/Store';
 import AuthController from '../../controllers/AuthController';
 import router from '../../core/Router/Router';
 import { User } from '../../api/authApi';
+import styles from './personalInfoStyles.module.pcss';
 
 class ProfilePageBase extends Block<User> {
   constructor(props:User) {
@@ -74,7 +75,7 @@ class ProfilePageBase extends Block<User> {
   }
 
   render() {
-    return this.compile(template, this.props);
+    return this.compile(template, { ...this.props, styles });
   }
 }
 
