@@ -1,12 +1,4 @@
-.contacts {
-    &__container {
-        display: flex;
-        flex-direction: column;
-        row-gap: 8px;
-        margin: 0 4px;
-        color: var(--white)
-    }
-
+.chat {
     &__wrapper {
         padding: 8px;
         background-color: var( --card-background);
@@ -15,6 +7,10 @@
         grid-template-columns: auto 1fr auto;
         column-gap: 16px;
         align-items: center;
+        cursor: pointer;
+    }
+    &__wrapper--selected {
+        background: var(--lightblue);
     }
 
     &__circle {

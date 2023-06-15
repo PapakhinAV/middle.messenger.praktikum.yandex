@@ -1,10 +1,10 @@
-import merge from './merge';
+import { merge } from './merge';
 
 export type Indexed<T = any> = {
-  [key in string]: T;
+  [key in string]: T | Indexed<T>;
 };
 function isObject(variable: unknown) {
-  return typeof variable === 'object' && variable !== null;
+  return typeof variable === 'object' && variable !== null && !Array.isArray(variable);
 }
 
 export function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {

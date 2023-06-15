@@ -4,9 +4,11 @@ import template from './button.hbs';
 import styles from './buttonStyles.module.pcss';
 
 interface IButtonProps {
+    img?: string
+    logoSize?: number
     link?: string
     type: string
-    text: string
+    text?: string
     size?: 'small'
     className?: string
     events?: {

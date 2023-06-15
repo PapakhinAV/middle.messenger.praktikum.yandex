@@ -1,5 +1,5 @@
-import Block from '../../core/Block'
-import template from './simpleInput.hbs'
+import Block from '../../core/Block';
+import template from './simpleInput.hbs';
 
 interface ISimpleInputProps {
     name: string
@@ -13,15 +13,14 @@ interface ISimpleInputProps {
         change?: (e: InputEvent)=>void
     }
 }
- class SimpleInput extends Block<ISimpleInputProps> {
-    constructor({required = false, ...otherProps}: ISimpleInputProps) {
-        super( {required, ...otherProps});
-    }
+class SimpleInput extends Block<ISimpleInputProps> {
+  constructor({ required = false, ...otherProps }: ISimpleInputProps) {
+    super({ required, ...otherProps });
+  }
 
-    render(){
-        return this.compile(template, this.props)
-    }
-
+  render() {
+    return this.compile(template, this.props);
+  }
 }
 
-export default SimpleInput
+export default SimpleInput;

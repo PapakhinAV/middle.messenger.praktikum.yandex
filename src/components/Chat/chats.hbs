@@ -1,0 +1,20 @@
+
+<div id="{{this.id}}" class="{{styles.chat__wrapper}} {{#if isSelected }}{{ styles.chat__wrapper--selected }}{{/if}}">
+    <div>
+        {{#if this.avatar}}
+            <img class="{{styles.chat__photo}}" alt="" src="https://ya-praktikum.tech/api/v2/resources/{{this.avatar}}"/>
+        {{else}}
+            <div class="{{styles.chat__circle}}"></div>
+        {{/if}}
+    </div>
+    <div class="{{styles.chat__content}}">
+        <div class="{{styles.chat__title}}">{{this.title}}</div>
+        <div class="{{styles.chat__text}}">{{this.last_message.content}}</div>
+    </div>
+    <div class="{{styles.chat__info}}">
+        <div class="{{styles.chat__time}}">{{this.last_message.time}}</div>
+        {{#if this.unread_count}}
+            <div class="{{styles.chat__unread}}">{{this.unread_count}}</div>
+        {{/if}}
+    </div>
+</div>

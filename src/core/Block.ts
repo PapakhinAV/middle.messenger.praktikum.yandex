@@ -13,13 +13,11 @@ class Block<P extends Record<string, any> = any> {
 
   protected props: P;
 
-  protected children: Record<string, Block>;
+  protected children: Record<string, Block | Block[]>;
 
   private eventBus: () => EventBus;
 
   private _element: HTMLElement | null = null;
-
-  private _meta: { props: P; };
 
   private renderQueue: (() => void)[] = [];
 
@@ -30,9 +28,6 @@ class Block<P extends Record<string, any> = any> {
   constructor(propsWithChildren: P) {
     const eventBus = new EventBus();
     const { props, children } = this._getChildrenAndProps(propsWithChildren);
-    this._meta = {
-      props: props as P,
-    };
 
     this.children = children;
     this.props = this._makePropsProxy(props);
@@ -75,7 +70,7 @@ class Block<P extends Record<string, any> = any> {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected componentDidUpdate(oldProps: Record<string, any>, newProps: Record<string, any>) {
     return true;
   }
@@ -189,8 +184,12 @@ class Block<P extends Record<string, any> = any> {
   protected compile(template: (context: any) => string, context: any) {
     const contextAndStubs = { ...context };
 
-    Object.entries(this.children).forEach(([name, Component]) => {
-      contextAndStubs[name] = `<div data-id="${Component.id}"></div>`;
+    Object.entries(this.children).forEach(([name, component]) => {
+      if (Array.isArray(component)) {
+        contextAndStubs[name] = component.map((child) => `<div data-id="${child.id}"></div>`);
+      } else {
+        contextAndStubs[name] = `<div data-id="${component.id}"></div>`;
+      }
     });
     const html = template(contextAndStubs);
 
