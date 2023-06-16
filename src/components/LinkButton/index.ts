@@ -1,5 +1,6 @@
 import Block from '../../core/Block';
 import template from './linkButton.hbs';
+import styles from './linkButtonStyles.module.pcss'
 
 interface ILinkButtonProps {
     link?: string
@@ -15,7 +16,7 @@ class LinkButton extends Block<ILinkButtonProps> {
   }
 
   render() {
-    return this.compile(template, this.props);
+    return this.compile(template, { ...this.props, styles });
   }
 }
 

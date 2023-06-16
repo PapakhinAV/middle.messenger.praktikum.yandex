@@ -13,7 +13,8 @@ import AuthController from '../../controllers/AuthController';
 import router from '../../core/Router/Router';
 import UserController from '../../controllers/UserController';
 import { IChangePasswordData, IChangeUserData } from '../../api/userApi';
-import styles from './personalInfoEditStyles.module.pcss'
+import styles from './personalInfoEditStyles.module.pcss';
+import { isBlock } from '../../ typeGuards/isBlock';
 
 class PersonalInfoEditBase extends Block<User> {
   constructor(props:User) {
@@ -46,8 +47,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'email',
       required: true,
       events: {
-        focusout: (e) => validators.email(e, this.children.email),
-        change: (e) => this.children.email.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.email)) validators.email(e, this.children.email);
+        },
+        change: (e) => {
+          if (isBlock(this.children.email)) this.children.email.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.login = new RowInput({
@@ -57,8 +62,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'text',
       required: true,
       events: {
-        focusout: (e) => validators.login(e, this.children.login),
-        change: (e) => this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.login)) validators.login(e, this.children.login);
+        },
+        change: (e) => {
+          if (isBlock(this.children.login)) this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.firstName = new RowInput({
@@ -68,8 +77,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'text',
       required: true,
       events: {
-        focusout: (e) => validators.name(e, this.children.firstName),
-        change: (e) => this.children.firstName.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.firstName)) validators.name(e, this.children.firstName);
+        },
+        change: (e) => {
+          if (isBlock(this.children.firstName)) this.children.firstName.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.secondName = new RowInput({
@@ -79,8 +92,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'text',
       required: true,
       events: {
-        focusout: (e) => validators.name(e, this.children.secondName),
-        change: (e) => this.children.secondName.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.secondName)) validators.name(e, this.children.secondName);
+        },
+        change: (e) => {
+          if (isBlock(this.children.secondName)) this.children.secondName.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.chatName = new RowInput({
@@ -90,8 +107,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'text',
       required: true,
       events: {
-        focusout: (e) => validators.name(e, this.children.chatName),
-        change: (e) => this.children.chatName.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.chatName)) validators.name(e, this.children.chatName);
+        },
+        change: (e) => {
+          if (isBlock(this.children.chatName)) this.children.chatName.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.phone = new RowInput({
@@ -101,8 +122,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'tel',
       required: true,
       events: {
-        focusout: (e) => validators.phone(e, this.children.phone),
-        change: (e) => this.children.phone.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.phone)) validators.phone(e, this.children.phone);
+        },
+        change: (e) => {
+          if (isBlock(this.children.phone)) this.children.phone.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
 
@@ -113,8 +138,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'password',
       required: true,
       events: {
-        focusout: (e) => validators.password(e, this.children.oldPassword),
-        change: (e) => this.children.oldPassword.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.oldPassword)) validators.password(e, this.children.oldPassword);
+        },
+        change: (e) => {
+          if (isBlock(this.children.oldPassword)) this.children.oldPassword.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.newPassword = new RowInput({
@@ -124,8 +153,12 @@ class PersonalInfoEditBase extends Block<User> {
       type: 'password',
       required: true,
       events: {
-        focusout: (e) => validators.password(e, this.children.newPassword),
-        change: (e) => this.children.newPassword.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.newPassword)) validators.password(e, this.children.newPassword);
+        },
+        change: (e) => {
+          if (isBlock(this.children.newPassword)) this.children.newPassword.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.saveButton = new Button({
@@ -178,7 +211,7 @@ class PersonalInfoEditBase extends Block<User> {
   }
 
   render() {
-    return this.compile(template, { ...this.props, styles});
+    return this.compile(template, { ...this.props, styles });
   }
 }
 

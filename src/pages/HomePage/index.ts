@@ -1,38 +1,27 @@
 import Block from '../../core/Block';
 import template from './homePage.hbs';
 import arrowRightBase from '../../assets/svg/arrowRightBase.svg';
-import { IMessage } from '../../components/Messages';
 import { Messages, MessageInput } from '../../components';
 import { validators } from '../../utils/validators';
 import { submitValidator } from '../../utils/submitValidator';
 import { getFormValue } from '../../utils/getFormValue';
-import SendMessageIButton from '../../components/SendMessageIButton';
+import SendMessageButton from '../../components/SendMessageButton';
 import Chats from '../../components/ChatsList';
-import { withStore } from '../../core/Store';
 import AuthController from '../../controllers/AuthController';
 import styles from './homePage.module.pcss';
 import MainHeader from '../../components/MainHeader';
-import { User } from '../../api/authApi';
 import ChatsHeader from '../../components/ChatsHeader';
 import ChatsController from '../../controllers/ChatsController';
+import { isBlock } from '../../ typeGuards/isBlock';
+import MessagesController from '../../controllers/MessagesController';
+import { EStoreFields } from '../../core/Store/Store';
+import { withStore } from '../../core/Store';
 
-const messages: IMessage[] = [
-  {
-    id: '1',
-    text: 'Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.\n\nХассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.',
-    time: '12:00',
-    type: 'incoming',
-  },
-  {
-    id: '2',
-    text: 'Круто!',
-    time: '12:05',
-    type: 'send',
-  },
-];
-
-class HomePageBase extends Block<User> {
-  constructor(props:User) {
+interface IHomePageProps {
+  chatId?: number
+}
+class HomePageBase extends Block<IHomePageProps> {
+  constructor(props:IHomePageProps) {
     super(props);
   }
 
@@ -42,7 +31,8 @@ class HomePageBase extends Block<User> {
 
     this.children.chatsHeader = new ChatsHeader({});
     this.children.chats = new Chats({});
-    this.children.messages = new Messages({ messages });
+    this.children.messages = new Messages({});
+
     this.children.messageInput = new MessageInput({
       required: true,
       value: '',
@@ -51,28 +41,39 @@ class HomePageBase extends Block<User> {
         blur: {
           searchParam: 'input',
           handler: (e) => {
-            validators.message(e, this.children.messageInput);
+            if (isBlock(this.children.messageInput)) validators.message(e, this.children.messageInput);
           },
         },
-        change: (e) => {
-          this.children.messageInput.setProps({ value: (e.target as HTMLInputElement)?.value });
+        change: {
+          searchParam: 'input',
+          handler: (e) => {
+            if (isBlock(this.children.messageInput)) this.children.messageInput.setProps({ value: (e.target as HTMLInputElement)?.value });
+          },
+
         },
         keydown: (e) => {
           if (e.key === 'Enter') {
-            this.children.messageButton.element?.dispatchEvent(new Event('click'));
+            if (isBlock(this.children.messageButton)) this.children.messageButton.element?.dispatchEvent(new Event('click'));
           }
         },
       },
     });
-    this.children.messageButton = new SendMessageIButton({
+    this.children.messageButton = new SendMessageButton({
       iconPath: arrowRightBase,
       events: {
         click: (e) => {
           e.preventDefault();
-          const errors = submitValidator(this.children);
+          const currentFieldsNames = ['messageInput'];
+          const currentFields = Object.fromEntries(
+            Object.entries(this.children).filter(([key]) => currentFieldsNames.includes(key)),
+          );
+
+          const errors = submitValidator(currentFields);
           if (!errors) {
-            console.log(getFormValue(this.children));
-            this.children.messageInput.setProps({ value: '' });
+            const { message } = getFormValue(currentFields);
+            const { chatId } = this.props;
+            if (chatId && message) MessagesController.sendMessage(chatId, message);
+            if (isBlock(this.children.messageInput)) this.children.messageInput.setProps({ value: '' });
           }
         },
       },
@@ -85,7 +86,7 @@ class HomePageBase extends Block<User> {
   }
 }
 
-const withUser = withStore<User>((state) => ({ ...state.user }));
+const withUser = withStore<IHomePageProps>((state) => ({ chatId: state[EStoreFields.SELECTED_CHAT]?.id }));
 
 const HomePage = withUser(HomePageBase) as typeof Block;
 

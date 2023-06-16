@@ -8,8 +8,9 @@ import { Button } from '../index';
 import ChatsrController from '../../controllers/ChatsController';
 
 export interface IMainHeaderProps {
-  firstName: string
+  title: string
   rubbishBin: string
+  selectedChatId: number
 }
 class MainHeaderBase extends Block<IMainHeaderProps> {
   constructor(props: IMainHeaderProps) {
@@ -31,7 +32,7 @@ class MainHeaderBase extends Block<IMainHeaderProps> {
       size: 'small',
       logoSize: 20,
       events: {
-        click: () => ChatsrController.deleteChat(1),
+        click: () => ChatsrController.deleteChat(this.props.selectedChatId),
       },
     });
   }
@@ -41,7 +42,7 @@ class MainHeaderBase extends Block<IMainHeaderProps> {
   }
 }
 
-const withUser = withStore<IMainHeaderProps>((state) => ({ first_name: state.user.first_name }));
+const withUser = withStore<IMainHeaderProps>((state) => ({ title: state.selectedChat?.title, selectedChatId: state.selectedChat?.id }));
 
 const MainHeader = withUser(MainHeaderBase) as typeof Block;
 

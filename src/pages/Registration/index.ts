@@ -7,8 +7,9 @@ import { validators } from '../../utils/validators';
 import { submitValidator } from '../../utils/submitValidator';
 import { getFormValue } from '../../utils/getFormValue';
 import styles from './registrationStyles.module.pcss';
-import AuthController from "../../controllers/AuthController";
-import {SignupData} from "../../api/authApi";
+import AuthController from '../../controllers/AuthController';
+import { SignupData } from '../../api/authApi';
+import { isBlock } from '../../ typeGuards/isBlock';
 
 class Authorization extends Block {
   constructor() {
@@ -23,8 +24,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.email(e, this.children.email),
-        change: (e) => this.children.email.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.email)) validators.email(e, this.children.email);
+        },
+        change: (e) => {
+          if (isBlock(this.children.email)) this.children.email.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.login = new SimpleInput({
@@ -34,8 +39,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.login(e, this.children.login),
-        change: (e) => this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.login)) validators.login(e, this.children.login);
+        },
+        change: (e) => {
+          if (isBlock(this.children.login)) this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.firstName = new SimpleInput({
@@ -45,8 +54,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.name(e, this.children.firstName),
-        change: (e) => this.children.firstName.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.firstName)) validators.name(e, this.children.firstName);
+        },
+        change: (e) => {
+          if (isBlock(this.children.firstName)) this.children.firstName.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.secondName = new SimpleInput({
@@ -56,8 +69,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.name(e, this.children.secondName),
-        change: (e) => this.children.secondName.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.secondName)) validators.name(e, this.children.secondName);
+        },
+        change: (e) => {
+          if (isBlock(this.children.secondName)) this.children.secondName.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.phone = new SimpleInput({
@@ -67,8 +84,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.phone(e, this.children.phone),
-        change: (e) => this.children.phone.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.phone)) validators.phone(e, this.children.phone);
+        },
+        change: (e) => {
+          if (isBlock(this.children.phone)) this.children.phone.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.password = new SimpleInput({
@@ -78,8 +99,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.password(e, this.children.password),
-        change: (e) => this.children.password.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.password)) validators.password(e, this.children.password);
+        },
+        change: (e) => {
+          if (isBlock(this.children.password)) this.children.password.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.submitButton = new Button({

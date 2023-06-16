@@ -2,6 +2,7 @@ import API, { AuthAPI, SigninData, SignupData } from '../api/authApi';
 import router from '../core/Router/Router';
 import { ERoutes } from '../core/Router';
 import { store } from '../core/Store';
+import { EStoreFields } from '../core/Store/Store';
 
 class AuthController {
   private readonly api: AuthAPI;
@@ -32,13 +33,13 @@ class AuthController {
 
   async fetchUser() {
     const user = await this.api.request();
-    store.set('user', user);
+    store.set(EStoreFields.USER, user);
   }
 
   async logout() {
     try {
       await this.api.logout();
-      store.set('user', null);
+      store.set(EStoreFields.USER, null);
 
       router.go(ERoutes.LOGIN);
     } catch (e: any) {

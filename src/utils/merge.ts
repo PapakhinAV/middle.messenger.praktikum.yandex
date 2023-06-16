@@ -14,6 +14,7 @@ export function merge(lhs: Indexed<any>, rhs: Indexed<any>): Indexed<any> {
     }
   }
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const key in rhs) {
     if (rhs[key]) {
       if (result[key] && typeof result[key] === 'object' && typeof rhs[key] === 'object' && !Array.isArray(rhs[key])) {

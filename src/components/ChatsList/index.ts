@@ -3,7 +3,7 @@ import template from './chats.hbs';
 import { withStore } from '../../core/Store';
 import styles from './chatsStyles.module.pcss';
 import { ChatInfo } from '../../api/chatsApi';
-import Chat, {withChat} from '../Chat';
+import Chat, { withChat } from '../Chat';
 import ChatsController from '../../controllers/ChatsController';
 
 interface IChatsListProps {

@@ -3,6 +3,8 @@ import API, {
   ChatsAPI, IChatUsers, ICreateChat, IUserToChat,
 } from '../api/chatsApi';
 import { store } from '../core/Store';
+import MessagesController from './MessagesController';
+import { EStoreFields } from '../core/Store/Store';
 
 class ChatsController {
   private readonly api: ChatsAPI;
@@ -13,13 +15,14 @@ class ChatsController {
 
   async getChats() {
     try {
-      const chats = await this.api.getChats();
-      // chats.map(async (chat) => {
-      //   const token = await this.getChatsToken(chat.id);
-      //   // await MessagesController.connect(chat.id, token);
-      // });
+      const chats = await this.api.getChats() || [];
 
-      store.set('chats', chats);
+      chats.map(async (chat) => {
+        const token = await this.getChatsToken(chat.id);
+        if (token) await MessagesController.connect(chat.id, token);
+      });
+
+      store.set(EStoreFields.CHATS, chats);
     } catch (e: any) {
       console.error(e);
     }
@@ -37,14 +40,17 @@ class ChatsController {
 
   async deleteChat(chatId: number) {
     try {
-      const user = await this.api.deleteChat({ chatId });
-      if (user) {
-        store.set('search.userById', user);
-      }
+      await this.api.deleteChat({ chatId });
+      await this.getChats();
     } catch (e: any) {
       console.error(e.message);
     }
   }
+
+  // const user = await this.api.
+  // if (user) {
+  //   store.set('search.userById', user);
+  // }
 
   async getChatUsers(data: IChatUsers) {
     try {
@@ -75,8 +81,8 @@ class ChatsController {
 
   async getChatsToken(chatId: number) {
     try {
-      await this.api.getChatsToken(chatId);
-      // ...
+      const response = await this.api.getChatsToken(chatId);
+      return response?.token;
     } catch (e: any) {
       console.error(e.message);
     }
@@ -104,7 +110,7 @@ class ChatsController {
 
   selectChat(id: number) {
     const chat = store.getState().chats?.find((el: ChatInfo) => el.id === id);
-    store.set('selectedChat', chat);
+    store.set(EStoreFields.SELECTED_CHAT, chat);
   }
 }
 

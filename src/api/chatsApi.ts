@@ -53,7 +53,7 @@ export class ChatsAPI extends BaseAPI {
   protected headers = { 'Content-Type': 'application/json' };
 
   getChats() {
-    return this.http.get('/', { headers: this.headers });
+    return this.http.get<ChatInfo[]>('/', { headers: this.headers });
   }
 
   createChat(data: ICreateChat) {
@@ -106,7 +106,7 @@ export class ChatsAPI extends BaseAPI {
   }
 
   getChatsToken(chatId: number) {
-    return this.http.get(`/token/${chatId}`, { headers: this.headers });
+    return this.http.post<Record<'token', string>>(`/token/${chatId}`, { headers: this.headers });
   }
 }
 

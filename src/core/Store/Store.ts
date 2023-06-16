@@ -5,11 +5,19 @@ export enum StoreEvents {
   Updated = 'updated'
 }
 
+export enum EStoreFields {
+  USER = 'user',
+  SELECTED_CHAT = 'selectedChat',
+  SEARCH = 'search',
+  CHATS = 'chats',
+  MESSAGES = 'messages'
+}
+
 export class Store extends EventBus {
-  private state: any = {};
+  private state: Partial<Record<EStoreFields, any>> = {};
 
   public set(keypath: string, data: unknown) {
-    this.state = set(this.state, keypath, data);
+    this.state = set(this.state, keypath, data) as Partial<Record<EStoreFields, any>>;
     this.emit(StoreEvents.Updated, this.getState());
   }
 

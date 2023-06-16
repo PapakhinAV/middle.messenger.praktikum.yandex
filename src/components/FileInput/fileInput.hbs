@@ -1,7 +1,7 @@
-<div class="fileInput">
-    <label for="file-upload" class="fileInput__label">{{text}}</label>
-    <input required="{{required}}" id="file-upload" class="fileInput__input" type="file" name="{{name}}">
+<div class="{{styles.fileInput}}">
+    <label for="file-upload" class="{{styles.fileInput__label}}">{{text}}</label>
+    <input required="{{required}}" id="file-upload" class="{{styles.fileInput__input}}" type="file" name="{{name}}">
     {{#if error}}
-        <div class="fileInput__error">{{error}}</div>
+        <div class="{{styles.fileInput__error}}">{{error}}</div>
     {{/if}}
 </div>

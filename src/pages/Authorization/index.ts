@@ -9,6 +9,7 @@ import { getFormValue } from '../../utils/getFormValue';
 import styles from './authorizationStyles.module.pcss';
 import AuthController from '../../controllers/AuthController';
 import { SignupData } from '../../api/authApi';
+import { isBlock } from '../../ typeGuards/isBlock';
 
 class Authorization extends Block {
   constructor() {
@@ -23,8 +24,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.login(e, this.children.login),
-        change: (e) => this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.login)) validators.login(e, this.children.login);
+        },
+        change: (e) => {
+          if (isBlock(this.children.login)) this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.password = new SimpleInput({
@@ -34,8 +39,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.password(e, this.children.password),
-        change: (e) => this.children.password.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.password)) validators.password(e, this.children.password);
+        },
+        change: (e) => {
+          if (isBlock(this.children.password)) this.children.password.setProps({ value: (e.target as HTMLInputElement)?.value });
+        },
       },
     });
     this.children.registration = new LinkButton({

@@ -3,6 +3,7 @@ import API, {
 } from '../api/userApi';
 import { store } from '../core/Store';
 import router from '../core/Router/Router';
+import {EStoreFields} from "../core/Store/Store";
 
 class UserController {
   private readonly api: UserAPI;
@@ -14,7 +15,7 @@ class UserController {
   async updateUser(data: IChangeUserData) {
     try {
       const user = await this.api.updateUser(data);
-      store.set('user', user);
+      store.set(EStoreFields.USER, user);
       router.back();
     } catch (e: any) {
       console.error(e);
@@ -35,7 +36,7 @@ class UserController {
       const formData = new FormData();
       formData.append('avatar', data);
       const user = await this.api.updateAvatar(formData);
-      store.set('user', user);
+      store.set(EStoreFields.USER, user);
       router.back();
     } catch (e: any) {
       console.error(e.message);
@@ -46,7 +47,7 @@ class UserController {
     try {
       const user = await this.api.getUserById(id);
       if (user) {
-        store.set('search.userById', user);
+        store.set(`${EStoreFields.SEARCH}.userById`, user);
       }
     } catch (e: any) {
       console.error(e.message);
@@ -57,7 +58,7 @@ class UserController {
     try {
       const users = await this.api.getUserByLogin(data);
       if (users) {
-        store.set('search.usersByLogin', users);
+        store.set(`${EStoreFields.SEARCH}.usersByLogin`, users);
       }
     } catch (e: any) {
       console.error(e.message);
