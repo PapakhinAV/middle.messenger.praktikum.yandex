@@ -3,8 +3,18 @@ import API, {
 } from '../api/userApi';
 import { store } from '../core/Store';
 import router from '../core/Router/Router';
-import {EStoreFields} from "../core/Store/Store";
+import { EStoreFields } from '../core/Store/Store';
 
+export interface ISearchUser {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name?: string
+  login: string;
+  email: string;
+  phone: string;
+  avatar?: string;
+}
 class UserController {
   private readonly api: UserAPI;
 

@@ -14,6 +14,7 @@ const mappedValidatorsNames: Record<string, keyof typeof validators> = {
   phone: 'phone',
   messageInput: 'message',
   newChatTitle: 'message',
+  searchInput: 'login',
 };
 export function submitValidator(children: Record<string, Block<any> | Block<any>[]>) {
   const formInputs = Object.entries(children).reduce(

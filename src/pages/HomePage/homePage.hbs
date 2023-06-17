@@ -3,8 +3,18 @@
        {{{chatsHeader}}}
         {{{chats}}}
     </div>
-    <div class="{{styles.main__chatFeed}}">
+    <div class="
+        {{#if chatId}}
+            {{styles.main__chatFeed}}
+            {{#if isUserSearchVisible}}
+                {{styles.main__chatFeed--withSearch}}
+            {{/if}}
+        {{else}}
+            {{styles.hidden}}
+        {{/if}}"
+    >
         {{{mainHeader}}}
+        {{{userSearchBlock}}}
         <div class="{{styles.main__messages}}">
             {{{messages}}}
         </div>

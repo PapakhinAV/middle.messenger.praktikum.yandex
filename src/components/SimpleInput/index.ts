@@ -11,6 +11,7 @@ interface ISimpleInputProps {
     events?: {
         focusout?: (event: PointerEvent)=>void
         change?: (e: InputEvent)=>void
+        keydown?: (e:KeyboardEvent)=>void
     }
 }
 class SimpleInput extends Block<ISimpleInputProps> {

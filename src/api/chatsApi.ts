@@ -29,10 +29,10 @@ export interface IChatsArchiveById {
 
 export interface IChatUsers {
   chatId: number;
-  offset: number;
-  limit: number;
-  name: string;
-  email: string;
+  offset?: number;
+  limit?: number;
+  name?: string;
+  email?: string;
 }
 
 export interface IChatAvatar {

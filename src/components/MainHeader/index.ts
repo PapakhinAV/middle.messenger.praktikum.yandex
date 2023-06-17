@@ -5,17 +5,16 @@ import { withStore } from '../../core/Store';
 import rubbishBin from '../../assets/svg/rubbish.svg';
 import addUser from '../../assets/svg/addUser.svg';
 import { Button } from '../index';
-import ChatsrController from '../../controllers/ChatsController';
+import ChatsController from '../../controllers/ChatsController';
 
 export interface IMainHeaderProps {
   title: string
-  rubbishBin: string
   selectedChatId: number
 }
+
 class MainHeaderBase extends Block<IMainHeaderProps> {
   constructor(props: IMainHeaderProps) {
     super(props);
-    this.props.rubbishBin = rubbishBin;
   }
 
   init() {
@@ -24,6 +23,11 @@ class MainHeaderBase extends Block<IMainHeaderProps> {
       type: 'text',
       size: 'small',
       logoSize: 20,
+      events: {
+        click: () => {
+          ChatsController.showUserSearchByLogin();
+        },
+      },
     });
 
     this.children.deleteChatButton = new Button({
@@ -32,7 +36,7 @@ class MainHeaderBase extends Block<IMainHeaderProps> {
       size: 'small',
       logoSize: 20,
       events: {
-        click: () => ChatsrController.deleteChat(this.props.selectedChatId),
+        click: () => ChatsController.deleteChat(this.props.selectedChatId),
       },
     });
   }
@@ -42,8 +46,10 @@ class MainHeaderBase extends Block<IMainHeaderProps> {
   }
 }
 
-const withUser = withStore<IMainHeaderProps>((state) => ({ title: state.selectedChat?.title, selectedChatId: state.selectedChat?.id }));
+const withUser = withStore<IMainHeaderProps>((state) => ({
+  title: state.selectedChat?.title,
+  selectedChatId: state.selectedChat?.id,
+}));
 
 const MainHeader = withUser(MainHeaderBase) as typeof Block;
-
 export default MainHeader;

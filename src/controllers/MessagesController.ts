@@ -1,6 +1,7 @@
 import WSTransport, { WSTransportEvents } from '../core/WSTransport';
 import { store } from '../core/Store';
 import { EStoreFields } from '../core/Store/Store';
+import ChatsController from './ChatsController';
 
 export interface IMessage {
   chat_id: number;
@@ -72,6 +73,7 @@ class MessagesController {
 
     const currentMessages = (store.getState().messages || {})[chatId] || [];
     messagesToAdd = [...currentMessages, ...messagesToAdd];
+    ChatsController.getChats();
     store.set(`${EStoreFields.MESSAGES}.${chatId}`, messagesToAdd);
   }
 
@@ -86,8 +88,5 @@ class MessagesController {
 }
 
 const controller = new MessagesController();
-
-// // @ts-ignore
-// window.messagesController = controller;
 
 export default controller;

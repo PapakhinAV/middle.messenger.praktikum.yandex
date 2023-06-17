@@ -45,7 +45,7 @@ export class UserAPI extends BaseAPI {
   }
 
   getUserByLogin(data: ISearchUserByLogin) {
-    return this.http.post('/user/search', { data, headers: this.headers });
+    return this.http.post('/search', { data, headers: this.headers });
   }
 }
 

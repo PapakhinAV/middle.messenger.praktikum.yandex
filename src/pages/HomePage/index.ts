@@ -16,9 +16,11 @@ import { isBlock } from '../../ typeGuards/isBlock';
 import MessagesController from '../../controllers/MessagesController';
 import { EStoreFields } from '../../core/Store/Store';
 import { withStore } from '../../core/Store';
+import UserSearchBlock from '../../components/UsersSearchBlock';
 
 interface IHomePageProps {
   chatId?: number
+  isUserSearchVisible?: boolean
 }
 class HomePageBase extends Block<IHomePageProps> {
   constructor(props:IHomePageProps) {
@@ -31,6 +33,7 @@ class HomePageBase extends Block<IHomePageProps> {
 
     this.children.chatsHeader = new ChatsHeader({});
     this.children.chats = new Chats({});
+    this.children.userSearchBlock = new UserSearchBlock({});
     this.children.messages = new Messages({});
 
     this.children.messageInput = new MessageInput({
@@ -86,8 +89,10 @@ class HomePageBase extends Block<IHomePageProps> {
   }
 }
 
-const withUser = withStore<IHomePageProps>((state) => ({ chatId: state[EStoreFields.SELECTED_CHAT]?.id }));
-
-const HomePage = withUser(HomePageBase) as typeof Block;
+const withChatId = withStore<IHomePageProps>((state) => ({
+  chatId: state[EStoreFields.SELECTED_CHAT]?.id,
+  isUserSearchVisible: state[EStoreFields.SEARCH]?.isUsersByLoginVisible === 'open',
+}));
+const HomePage = withChatId(HomePageBase) as typeof Block;
 
 export default HomePage;

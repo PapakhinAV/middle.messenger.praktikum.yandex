@@ -33,6 +33,7 @@ class ChatsBase extends Block<IChatsListProps> {
         events: {
           click: () => {
             ChatsController.selectChat(data.id);
+            ChatsController.getChatUsers({ chatId: data.id });
           },
         },
       });

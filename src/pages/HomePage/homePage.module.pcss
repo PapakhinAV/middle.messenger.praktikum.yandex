@@ -17,10 +17,16 @@
         display: grid;
         grid-template-rows: auto 1fr auto;
         row-gap: 16px;
+        max-height: calc(100vh - 32px);
+        overflow: hidden;
+        border-radius: 8px;
 
         form{
             margin-bottom: 0;
         }
+    }
+    &__chatFeed--withSearch {
+        grid-template-rows: auto auto 1fr auto;
     }
 
     &__sendBlock {
@@ -35,5 +41,9 @@
     &__messages {
         background-color: var(--card-background);
         border-radius: 8px;
+        overflow: hidden;
     }
+}
+.hidden {
+    display: none;
 }

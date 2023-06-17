@@ -54,8 +54,8 @@ class ChatsController {
 
   async getChatUsers(data: IChatUsers) {
     try {
-      await this.api.getChatUsers(data);
-      // ...
+      const users = await this.api.getChatUsers(data) || [];
+      store.set('selectedChatUsers', users);
     } catch (e: any) {
       console.error(e.message);
     }
@@ -64,7 +64,7 @@ class ChatsController {
   async addUserToChat(data: IUserToChat) {
     try {
       await this.api.addUserToChat(data);
-      // ...
+      await this.getChatUsers({ chatId: data.chatId });
     } catch (e: any) {
       console.error(e.message);
     }
@@ -73,7 +73,7 @@ class ChatsController {
   async removeUserFromChat(data: IUserToChat) {
     try {
       await this.api.removeUserFromChat(data);
-      // ...
+      await this.getChatUsers({ chatId: data.chatId });
     } catch (e: any) {
       console.error(e.message);
     }
@@ -111,6 +111,16 @@ class ChatsController {
   selectChat(id: number) {
     const chat = store.getState().chats?.find((el: ChatInfo) => el.id === id);
     store.set(EStoreFields.SELECTED_CHAT, chat);
+    this.getChatUsers({ chatId: id });
+  }
+
+  showUserSearchByLogin() {
+    store.set(`${EStoreFields.SEARCH}.isUsersByLoginVisible`, 'open');
+  }
+
+  hideUserSearchByLogin() {
+    store.set(`${EStoreFields.SEARCH}.isUsersByLoginVisible`, 'close');
+    store.set(`${EStoreFields.SEARCH}.usersByLogin`, []);
   }
 }
 
