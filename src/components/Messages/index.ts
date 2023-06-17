@@ -29,7 +29,7 @@ const withSelectedChat = withStore<IMessagesProps>((state) => {
     };
   }
   return {
-    messages: (state.messages || {})[selectedChat.id].map((message: IMessage) => {
+    messages: (state.messages || {})[selectedChat.id]?.map((message: IMessage) => {
       const role = message.user_id === state.user.id ? 'sender' : 'receiver';
       return { ...message, role };
     }) || [],

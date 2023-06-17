@@ -12,6 +12,7 @@ import ChatsController from '../../controllers/ChatsController';
 import { getFormValue } from '../../utils/getFormValue';
 import { isICreateChat } from '../../ typeGuards/isICreateChat';
 import { isBlock } from '../../ typeGuards/isBlock';
+import { escapeHtml } from '../../utils/escapeHtml';
 
 export interface IChatsHeaderProps {
   toggler: 'none' | 'flex'
@@ -52,7 +53,7 @@ class ChatsHeaderBase extends Block<IChatsHeaderProps> {
       events: {
         change: (e) => {
           if (isBlock(this.children.newChatTitle)) {
-            this.children.newChatTitle.setProps({ value: (e.target as HTMLInputElement)?.value });
+            this.children.newChatTitle.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
           }
         },
       },

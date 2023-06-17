@@ -3,9 +3,12 @@ import router from '../core/Router/Router';
 import { ERoutes } from '../core/Router';
 import { store } from '../core/Store';
 import { EStoreFields } from '../core/Store/Store';
+import { RequestRateLimiter } from '../utils/requestRateLimiter';
 
 class AuthController {
   private readonly api: AuthAPI;
+
+  private rateLimiter: RequestRateLimiter = new RequestRateLimiter(500);
 
   constructor() {
     this.api = API;
@@ -13,6 +16,8 @@ class AuthController {
 
   async signin(data: SigninData) {
     try {
+      this.rateLimiter.checkRequestRate();
+
       await this.api.signin(data);
 
       router.go(ERoutes.HOME);
@@ -23,6 +28,8 @@ class AuthController {
 
   async signup(data: SignupData) {
     try {
+      this.rateLimiter.checkRequestRate();
+
       await this.api.signup(data);
 
       router.go(ERoutes.HOME);
@@ -38,6 +45,8 @@ class AuthController {
 
   async logout() {
     try {
+      this.rateLimiter.checkRequestRate();
+
       await this.api.logout();
       store.set(EStoreFields.USER, null);
 

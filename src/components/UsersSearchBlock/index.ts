@@ -15,6 +15,7 @@ import search from '../../assets/svg/search.svg';
 import close from '../../assets/svg/close.svg';
 import ChatsController from '../../controllers/ChatsController';
 import { User } from '../../api/authApi';
+import { escapeHtml } from '../../utils/escapeHtml';
 
 interface IUserSearchBlockProps {
   searchResults?: ISearchUser[]
@@ -38,7 +39,7 @@ class UserSearchBlockBase extends Block<IUserSearchBlockProps> {
       label: 'Введите логин пользователя',
       events: {
         change: (e) => {
-          if (isBlock(this.children.searchInput)) this.children.searchInput.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.searchInput)) this.children.searchInput.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });

@@ -17,6 +17,7 @@ import MessagesController from '../../controllers/MessagesController';
 import { EStoreFields } from '../../core/Store/Store';
 import { withStore } from '../../core/Store';
 import UserSearchBlock from '../../components/UsersSearchBlock';
+import { escapeHtml } from '../../utils/escapeHtml';
 
 interface IHomePageProps {
   chatId?: number
@@ -50,7 +51,7 @@ class HomePageBase extends Block<IHomePageProps> {
         change: {
           searchParam: 'input',
           handler: (e) => {
-            if (isBlock(this.children.messageInput)) this.children.messageInput.setProps({ value: (e.target as HTMLInputElement)?.value });
+            if (isBlock(this.children.messageInput)) this.children.messageInput.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
           },
 
         },

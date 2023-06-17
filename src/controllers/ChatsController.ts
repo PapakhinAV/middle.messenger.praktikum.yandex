@@ -5,9 +5,13 @@ import API, {
 import { store } from '../core/Store';
 import MessagesController from './MessagesController';
 import { EStoreFields } from '../core/Store/Store';
+import { RequestRateLimiter } from '../utils/requestRateLimiter';
+import { unescapeHtml } from '../utils/escapeHtml';
 
 class ChatsController {
   private readonly api: ChatsAPI;
+
+  private rateLimiter: RequestRateLimiter = new RequestRateLimiter(500);
 
   constructor() {
     this.api = API;
@@ -22,7 +26,11 @@ class ChatsController {
         if (token) await MessagesController.connect(chat.id, token);
       });
 
-      store.set(EStoreFields.CHATS, chats);
+      const unescapedChats = chats.map((chat) => ({
+        ...chat,
+        last_message: { ...chat.last_message, content: unescapeHtml(chat.last_message.content) },
+      }));
+      store.set(EStoreFields.CHATS, unescapedChats);
     } catch (e: any) {
       console.error(e);
     }
@@ -30,9 +38,9 @@ class ChatsController {
 
   async createChat(data: ICreateChat) {
     try {
+      this.rateLimiter.checkRequestRate();
       await this.api.createChat(data);
       await this.getChats();
-      // ...
     } catch (e: any) {
       console.error(e.message);
     }
@@ -40,6 +48,7 @@ class ChatsController {
 
   async deleteChat(chatId: number) {
     try {
+      this.rateLimiter.checkRequestRate();
       await this.api.deleteChat({ chatId });
       await this.getChats();
     } catch (e: any) {
@@ -63,6 +72,7 @@ class ChatsController {
 
   async addUserToChat(data: IUserToChat) {
     try {
+      this.rateLimiter.checkRequestRate();
       await this.api.addUserToChat(data);
       await this.getChatUsers({ chatId: data.chatId });
     } catch (e: any) {
@@ -72,6 +82,7 @@ class ChatsController {
 
   async removeUserFromChat(data: IUserToChat) {
     try {
+      this.rateLimiter.checkRequestRate();
       await this.api.removeUserFromChat(data);
       await this.getChatUsers({ chatId: data.chatId });
     } catch (e: any) {
@@ -91,7 +102,6 @@ class ChatsController {
   async getChatNewMessages(chatId: number) {
     try {
       await this.api.getChatNewMessages(chatId);
-      // ...
     } catch (e: any) {
       console.error(e.message);
     }
@@ -99,6 +109,7 @@ class ChatsController {
 
   async updateChatAvatar({ chatId, avatar }: {chatId: number, avatar: File}) {
     try {
+      this.rateLimiter.checkRequestRate();
       const formData = new FormData();
       formData.append('avatar', avatar);
       await this.api.updateChatAvatar({ chatId, avatar: formData });
@@ -115,10 +126,12 @@ class ChatsController {
   }
 
   showUserSearchByLogin() {
+    this.rateLimiter.checkRequestRate();
     store.set(`${EStoreFields.SEARCH}.isUsersByLoginVisible`, 'open');
   }
 
   hideUserSearchByLogin() {
+    this.rateLimiter.checkRequestRate();
     store.set(`${EStoreFields.SEARCH}.isUsersByLoginVisible`, 'close');
     store.set(`${EStoreFields.SEARCH}.usersByLogin`, []);
   }

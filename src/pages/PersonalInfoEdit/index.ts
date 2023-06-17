@@ -15,6 +15,7 @@ import UserController from '../../controllers/UserController';
 import { IChangePasswordData, IChangeUserData } from '../../api/userApi';
 import styles from './personalInfoEditStyles.module.pcss';
 import { isBlock } from '../../ typeGuards/isBlock';
+import { escapeHtml } from '../../utils/escapeHtml';
 
 class PersonalInfoEditBase extends Block<User> {
   constructor(props:User) {
@@ -51,7 +52,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.email)) validators.email(e, this.children.email);
         },
         change: (e) => {
-          if (isBlock(this.children.email)) this.children.email.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.email)) this.children.email.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -66,7 +67,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.login)) validators.login(e, this.children.login);
         },
         change: (e) => {
-          if (isBlock(this.children.login)) this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.login)) this.children.login.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -81,7 +82,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.firstName)) validators.name(e, this.children.firstName);
         },
         change: (e) => {
-          if (isBlock(this.children.firstName)) this.children.firstName.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.firstName)) this.children.firstName.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -96,7 +97,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.secondName)) validators.name(e, this.children.secondName);
         },
         change: (e) => {
-          if (isBlock(this.children.secondName)) this.children.secondName.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.secondName)) this.children.secondName.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -111,7 +112,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.chatName)) validators.name(e, this.children.chatName);
         },
         change: (e) => {
-          if (isBlock(this.children.chatName)) this.children.chatName.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.chatName)) this.children.chatName.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -126,7 +127,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.phone)) validators.phone(e, this.children.phone);
         },
         change: (e) => {
-          if (isBlock(this.children.phone)) this.children.phone.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.phone)) this.children.phone.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -142,7 +143,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.oldPassword)) validators.password(e, this.children.oldPassword);
         },
         change: (e) => {
-          if (isBlock(this.children.oldPassword)) this.children.oldPassword.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.oldPassword)) this.children.oldPassword.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -157,7 +158,7 @@ class PersonalInfoEditBase extends Block<User> {
           if (isBlock(this.children.newPassword)) validators.password(e, this.children.newPassword);
         },
         change: (e) => {
-          if (isBlock(this.children.newPassword)) this.children.newPassword.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.newPassword)) this.children.newPassword.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });

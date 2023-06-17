@@ -2,6 +2,8 @@ import WSTransport, { WSTransportEvents } from '../core/WSTransport';
 import { store } from '../core/Store';
 import { EStoreFields } from '../core/Store/Store';
 import ChatsController from './ChatsController';
+import { RequestRateLimiter } from '../utils/requestRateLimiter';
+import { unescapeHtml } from '../utils/escapeHtml';
 
 export interface IMessage {
   chat_id: number;
@@ -23,6 +25,8 @@ export interface IMessage {
 class MessagesController {
   private sockets: Map<number, WSTransport> = new Map();
 
+  private rateLimiter: RequestRateLimiter = new RequestRateLimiter(500);
+
   async connect(chatId: number, token: string) {
     if (this.sockets.has(chatId)) {
       return;
@@ -36,6 +40,7 @@ class MessagesController {
   }
 
   sendMessage(chatId: number, message: string) {
+    this.rateLimiter.checkRequestRate();
     const socket = this.sockets.get(chatId);
 
     if (!socket) {
@@ -72,7 +77,7 @@ class MessagesController {
     }
 
     const currentMessages = (store.getState().messages || {})[chatId] || [];
-    messagesToAdd = [...currentMessages, ...messagesToAdd];
+    messagesToAdd = [...currentMessages, ...messagesToAdd].map((el) => ({ ...el, content: unescapeHtml(el.content) }));
     ChatsController.getChats();
     store.set(`${EStoreFields.MESSAGES}.${chatId}`, messagesToAdd);
   }

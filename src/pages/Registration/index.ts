@@ -10,6 +10,7 @@ import styles from './registrationStyles.module.pcss';
 import AuthController from '../../controllers/AuthController';
 import { SignupData } from '../../api/authApi';
 import { isBlock } from '../../ typeGuards/isBlock';
+import { escapeHtml } from '../../utils/escapeHtml';
 
 class Authorization extends Block {
   constructor() {
@@ -28,7 +29,7 @@ class Authorization extends Block {
           if (isBlock(this.children.email)) validators.email(e, this.children.email);
         },
         change: (e) => {
-          if (isBlock(this.children.email)) this.children.email.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.email)) this.children.email.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -43,7 +44,7 @@ class Authorization extends Block {
           if (isBlock(this.children.login)) validators.login(e, this.children.login);
         },
         change: (e) => {
-          if (isBlock(this.children.login)) this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.login)) this.children.login.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -58,7 +59,7 @@ class Authorization extends Block {
           if (isBlock(this.children.firstName)) validators.name(e, this.children.firstName);
         },
         change: (e) => {
-          if (isBlock(this.children.firstName)) this.children.firstName.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.firstName)) this.children.firstName.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -73,7 +74,7 @@ class Authorization extends Block {
           if (isBlock(this.children.secondName)) validators.name(e, this.children.secondName);
         },
         change: (e) => {
-          if (isBlock(this.children.secondName)) this.children.secondName.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.secondName)) this.children.secondName.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -88,7 +89,7 @@ class Authorization extends Block {
           if (isBlock(this.children.phone)) validators.phone(e, this.children.phone);
         },
         change: (e) => {
-          if (isBlock(this.children.phone)) this.children.phone.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.phone)) this.children.phone.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });
@@ -103,7 +104,7 @@ class Authorization extends Block {
           if (isBlock(this.children.password)) validators.password(e, this.children.password);
         },
         change: (e) => {
-          if (isBlock(this.children.password)) this.children.password.setProps({ value: (e.target as HTMLInputElement)?.value });
+          if (isBlock(this.children.password)) this.children.password.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
         },
       },
     });

@@ -4,6 +4,7 @@ import API, {
 import { store } from '../core/Store';
 import router from '../core/Router/Router';
 import { EStoreFields } from '../core/Store/Store';
+import { RequestRateLimiter } from '../utils/requestRateLimiter';
 
 export interface ISearchUser {
   id: number;
@@ -18,12 +19,15 @@ export interface ISearchUser {
 class UserController {
   private readonly api: UserAPI;
 
+  private rateLimiter: RequestRateLimiter = new RequestRateLimiter(500);
+
   constructor() {
     this.api = API;
   }
 
   async updateUser(data: IChangeUserData) {
     try {
+      this.rateLimiter.checkRequestRate();
       const user = await this.api.updateUser(data);
       store.set(EStoreFields.USER, user);
       router.back();
@@ -34,6 +38,7 @@ class UserController {
 
   async updatePassword(data: IChangePasswordData) {
     try {
+      this.rateLimiter.checkRequestRate();
       await this.api.updatePassword(data);
       router.back();
     } catch (e: any) {
@@ -43,6 +48,7 @@ class UserController {
 
   async updateAvatar(data: File) {
     try {
+      this.rateLimiter.checkRequestRate();
       const formData = new FormData();
       formData.append('avatar', data);
       const user = await this.api.updateAvatar(formData);
