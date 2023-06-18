@@ -1,5 +1,13 @@
 <div class="{{styles.fileInput}}">
-    <label for="file-upload" class="{{styles.fileInput__label}}">{{text}}</label>
+    {{#if logoUrl}}
+        <label for="file-upload" class="{{styles.fileInput__logo}}">
+            <img src="{{logoUrl}}" alt="Logo" class="{{styles.fileInput__logo}}">
+        </label>
+    {{else}}
+        <label for="file-upload" class="{{styles.fileInput__label}}">
+            {{text}}
+        </label>
+    {{/if}}
     <input required="{{required}}" id="file-upload" class="{{styles.fileInput__input}}" type="file" name="{{name}}">
     {{#if error}}
         <div class="{{styles.fileInput__error}}">{{error}}</div>

@@ -3,7 +3,8 @@ import template from './fileInput.hbs';
 import styles from './fileInputStyles.module.pcss';
 
 interface IFileInputProps {
-    text: string
+    text?: string
+    logoUrl?: string;
     name: string
     required?: boolean
     error?: string

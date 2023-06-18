@@ -12,6 +12,7 @@ export function escapeHtml(value: string): string {
 }
 
 export function unescapeHtml(str: string): string {
+  if (!str) return '';
   const replacements: { [key: string]: string } = {
     '&amp;': '&',
     '&lt;': '<',

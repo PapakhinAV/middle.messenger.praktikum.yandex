@@ -27,15 +27,26 @@ window.addEventListener('DOMContentLoaded', async () => {
     isProtectedRoute = false;
     break;
   }
-
   try {
     await AuthController.fetchUser();
-
     Router.start();
+
+    if (!isProtectedRoute) {
+      Router.go(ERoutes.HOME);
+    }
   } catch (e) {
     Router.start();
-
-    if (isProtectedRoute && !store.getState()?.user?.id) {
+    const userId = store.getState()?.user?.id;
+    if (!isProtectedRoute && userId) {
+      Router.go(ERoutes.HOME);
+    }
+    if (typeof e === 'object' && e !== null && 'reason' in e) {
+      const error = e as { reason?: string };
+      if (error.reason === 'User already in system' && userId) {
+        Router.go(ERoutes.HOME);
+      }
+    }
+    if (isProtectedRoute && !userId) {
       Router.go(ERoutes.LOGIN);
     }
   }

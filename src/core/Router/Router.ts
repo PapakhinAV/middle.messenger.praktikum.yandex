@@ -1,4 +1,4 @@
-import {ERoutes, Route} from './index';
+import { ERoutes, Route } from './index';
 import Block from '../Block';
 
 class Router {
@@ -56,6 +56,12 @@ class Router {
 
   public go(pathname: ERoutes): void {
     this.history.pushState({}, '', pathname);
+    this._onRoute(pathname);
+  }
+
+  public redirect(pathname: ERoutes): void {
+    this.history.replaceState({}, '', pathname);
+    console.log(pathname);
     this._onRoute(pathname);
   }
 

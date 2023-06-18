@@ -21,14 +21,14 @@ class ChatsController {
     try {
       const chats = await this.api.getChats() || [];
 
-      chats.map(async (chat) => {
+      chats?.map(async (chat) => {
         const token = await this.getChatsToken(chat.id);
         if (token) await MessagesController.connect(chat.id, token);
       });
 
       const unescapedChats = chats.map((chat) => ({
         ...chat,
-        last_message: { ...chat.last_message, content: unescapeHtml(chat.last_message.content) },
+        last_message: { ...chat.last_message, content: unescapeHtml(chat?.last_message?.content) },
       }));
       store.set(EStoreFields.CHATS, unescapedChats);
     } catch (e: any) {
@@ -112,8 +112,10 @@ class ChatsController {
       this.rateLimiter.checkRequestRate();
       const formData = new FormData();
       formData.append('avatar', avatar);
-      await this.api.updateChatAvatar({ chatId, avatar: formData });
-      // ...
+      formData.append('chatId', String(chatId));
+      await this.api.updateChatAvatar(formData);
+      await this.getChats();
+      this.selectChat(chatId);
     } catch (e: any) {
       console.error(e.message);
     }
@@ -121,7 +123,7 @@ class ChatsController {
 
   selectChat(id: number) {
     const chat = store.getState().chats?.find((el: ChatInfo) => el.id === id);
-    store.set(EStoreFields.SELECTED_CHAT, chat);
+    store.set(EStoreFields.SELECTED_CHAT, { ...chat, avatar: chat.avatar ? chat.avatar : '/' });
     this.getChatUsers({ chatId: id });
   }
 

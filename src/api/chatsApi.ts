@@ -93,7 +93,7 @@ export class ChatsAPI extends BaseAPI {
     return this.http.get(`/new/${chatId}`, { headers: this.headers });
   }
 
-  updateChatAvatar(data: IChatAvatar) {
+  updateChatAvatar(data: FormData) {
     return this.http.put('/avatar', { data });
   }
 

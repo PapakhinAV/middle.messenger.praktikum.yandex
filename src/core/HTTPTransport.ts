@@ -6,6 +6,8 @@ export type TOptions = {
     headers?: Record<string, string>
 };
 
+type HTTPMethod = <Response>(url: string, options?: TOptions) => Promise<Response>;
+
 class HTTPTransport {
   protected API_URL = 'https://ya-praktikum.tech/api/v2';
 
@@ -16,25 +18,17 @@ class HTTPTransport {
     this.endpoint = `${this.API_URL}${endpoint}`;
   }
 
-  public get<Response>(url: string, options?: TOptions): Promise<Response> {
-    return this.request<Response>(
-      (this.endpoint + url).concat(queryStringify(options?.data)),
-      { ...options, method: this.METHODS.GET },
-      options?.timeout,
-    );
-  }
+  public get: HTTPMethod = (url, options) => this.request(
+    (this.endpoint + url).concat(queryStringify(options?.data)),
+    { ...options, method: this.METHODS.GET },
+    options?.timeout,
+  );
 
-  public post<Response>(url: string, options?: TOptions): Promise<Response> {
-    return this.request((this.endpoint + url), { ...options, method: this.METHODS.POST }, options?.timeout);
-  }
+  public post: HTTPMethod = (url, options) => this.request((this.endpoint + url), { ...options, method: this.METHODS.POST }, options?.timeout);
 
-  public put<Response>(url: string, options?: TOptions): Promise<Response> {
-    return this.request((this.endpoint + url), { ...options, method: this.METHODS.PUT }, options?.timeout);
-  }
+  public put: HTTPMethod = (url, options) => this.request((this.endpoint + url), { ...options, method: this.METHODS.PUT }, options?.timeout);
 
-  public delete<Response>(url: string, options?: TOptions): Promise<Response> {
-    return this.request((this.endpoint + url), { ...options, method: this.METHODS.DELETE }, options?.timeout);
-  }
+  public delete: HTTPMethod = (url, options) => this.request((this.endpoint + url), { ...options, method: this.METHODS.DELETE }, options?.timeout);
 
   private METHODS = {
     GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
