@@ -1,0 +1,21 @@
+.chatHeader {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    padding: 8px 40px;
+    row-gap: 16px;
+    display: flex;
+    flex-direction: column;
+
+    .actions {
+        display: grid;
+        grid-template-columns: auto 1fr auto auto;
+        align-items: center;
+        column-gap: 16px;
+    }
+
+    &__logo{
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+    }
+}

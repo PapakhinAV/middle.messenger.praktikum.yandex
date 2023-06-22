@@ -1,7 +1,7 @@
 <div class="messages__container">
     {{#each messages}}
-        <div id="{{this.id}}" class="message__wrapper message__{{this.type}}">
-            <div class="message__text">{{this.text}}</div>
+        <div id="{{this.chat_id}}{{this.time}}" class="message__wrapper message__{{this.role}}">
+            <div class="message__text">{{this.content}}</div>
             <div class="message__time">{{this.time}}</div>
         </div>
     {{/each}}

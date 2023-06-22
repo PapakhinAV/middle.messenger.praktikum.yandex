@@ -2,10 +2,15 @@ import Block from '../../core/Block';
 import template from './authorization.hbs';
 import SimpleInput from '../../components/SimpleInput';
 import { LinkButton, Button } from '../../components';
-import { ERoutes } from '../../ERoutes';
+import { ERoutes } from '../../core/Router/ERoutes';
 import { validators } from '../../utils/validators';
 import { submitValidator } from '../../utils/submitValidator';
 import { getFormValue } from '../../utils/getFormValue';
+import styles from './authorizationStyles.module.pcss';
+import AuthController from '../../controllers/AuthController';
+import { SignupData } from '../../api/authApi';
+import { isBlock } from '../../ typeGuards/isBlock';
+import { escapeHtml } from '../../utils/escapeHtml';
 
 class Authorization extends Block {
   constructor() {
@@ -17,11 +22,15 @@ class Authorization extends Block {
       name: 'login',
       type: 'text',
       label: 'Логин',
-      value: 'ff',
+      value: '',
       required: true,
       events: {
-        focusout: (e) => validators.login(e, this.children.login),
-        change: (e) => this.children.login.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.login)) validators.login(e, this.children.login);
+        },
+        change: (e) => {
+          if (isBlock(this.children.login)) this.children.login.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
+        },
       },
     });
     this.children.password = new SimpleInput({
@@ -31,8 +40,12 @@ class Authorization extends Block {
       value: '',
       required: true,
       events: {
-        focusout: (e) => validators.password(e, this.children.password),
-        change: (e) => this.children.password.setProps({ value: (e.target as HTMLInputElement)?.value }),
+        focusout: (e) => {
+          if (isBlock(this.children.password)) validators.password(e, this.children.password);
+        },
+        change: (e) => {
+          if (isBlock(this.children.password)) this.children.password.setProps({ value: escapeHtml((e.target as HTMLInputElement)?.value) });
+        },
       },
     });
     this.children.registration = new LinkButton({
@@ -47,8 +60,7 @@ class Authorization extends Block {
           e.preventDefault();
           const errors = submitValidator(this.children);
           if (!errors) {
-            console.log(getFormValue(this.children));
-            setTimeout(() => window.location.pathname = ERoutes.HOME, 3000);
+            AuthController.signin(getFormValue(this.children) as SignupData);
           }
         },
       },
@@ -56,7 +68,7 @@ class Authorization extends Block {
   }
 
   render() {
-    return this.compile(template, this.props);
+    return this.compile(template, { ...this.props, styles });
   }
 }
 

@@ -1,0 +1,51 @@
+.main {
+    &__wrapper {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        column-gap: 16px;
+        height: 100vh;
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    &__chats {
+        background-color: var(--card-background);
+        border-radius: 8px;
+    }
+
+    &__chatFeed {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        row-gap: 16px;
+        max-height: calc(100vh - 32px);
+        overflow: hidden;
+        border-radius: 8px;
+
+        form{
+            margin-bottom: 0;
+        }
+    }
+
+    &__chatFeed--withSearch {
+        grid-template-rows: auto auto 1fr auto;
+    }
+
+    &__sendBlock {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        padding: 16px;
+        display: grid;
+        column-gap: 16px;
+        grid-template-columns: auto 1fr auto;
+    }
+
+    &__messages {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+}
+
+.hidden {
+    display: none;
+}

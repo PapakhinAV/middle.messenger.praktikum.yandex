@@ -13,24 +13,41 @@ const mappedValidatorsNames: Record<string, keyof typeof validators> = {
   email: 'email',
   phone: 'phone',
   messageInput: 'message',
+  newChatTitle: 'message',
+  searchInput: 'login',
 };
-export function submitValidator(children: Record<string, Block<any>>) {
-  const formInputs = Object.keys(children).reduce((acc:{name: string, element: HTMLInputElement}[], el: string) => {
-    const currElement = children[el].element?.querySelector('input');
-    if (currElement) acc.push({ element: currElement, name: el });
-    return acc;
-  }, []);
+export function submitValidator(children: Record<string, Block<any> | Block<any>[]>) {
+  const formInputs = Object.entries(children).reduce(
+    (acc: { name: string; elements: HTMLInputElement[] }[], [key, value]) => {
+      const elements = Array.isArray(value)
+        ? value.map((block) => block.element?.querySelector('input')).filter((element): element is HTMLInputElement => element !== null)
+        : [value.element?.querySelector('input')].filter((element): element is HTMLInputElement => element !== null);
+      if (elements.length > 0) {
+        acc.push({ name: key, elements });
+      }
+      return acc;
+    },
+    [],
+  );
+
   const errors: string[] = [];
   const avalibleValidators = Object.keys(validators);
-  formInputs.forEach(({ name, element }) => {
+
+  formInputs.forEach(({ name, elements }) => {
     const validatorName = mappedValidatorsNames[name];
     if (avalibleValidators.includes(validatorName)) {
-      const check = validators[validatorName](element.value, children[name]);
-      if (check) errors.push(check);
+      elements.forEach((element) => {
+        const check = validators[validatorName](element.value, children[name] as Block<any>);
+        if (check) {
+          errors.push(check);
+        }
+      });
     } else {
-      throw Error(`Нет валидатора для элемента children с именем ${name}`);
+      throw new Error(`Нет валидатора для элемента children с именем ${name}`);
     }
   });
 
-  if (errors.length) return errors;
+  if (errors.length) {
+    return errors;
+  }
 }

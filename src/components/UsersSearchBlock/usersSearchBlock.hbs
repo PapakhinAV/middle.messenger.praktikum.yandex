@@ -1,0 +1,12 @@
+<div class="{{#if isVisible}}{{styles.searchBlock}}{{else}}{{styles.hidden}}{{/if}}" style="">
+    <div class="{{styles.searchBlock__input}}">
+        {{{searchInput}}}
+        {{{searchButton}}}
+        {{{closeButton}}}
+    </div>
+    <div class="{{styles.searchBlock__list}}">
+        {{#each users}}
+            {{{this}}}
+        {{/each}}
+    </div>
+</div>

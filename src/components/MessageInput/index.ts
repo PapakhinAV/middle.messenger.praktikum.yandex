@@ -1,5 +1,6 @@
 import Block from '../../core/Block';
 import template from './messageInput.hbs';
+import styles from './messageInputStyles.module.pcss';
 
 export interface ISendMessageProps {
     required: boolean,
@@ -7,7 +8,9 @@ export interface ISendMessageProps {
     value: string
     error?: string
     events?: {
-        change?: (e: InputEvent)=>void
+        change?: {
+          searchParam: string
+          handler: (e: InputEvent)=>void }
         blur?: {
           searchParam: string
           handler: (event: PointerEvent)=>void
@@ -22,8 +25,7 @@ class MessageInput extends Block<ISendMessageProps> {
   }
 
   render() {
-    return this.compile(template, this.props);
+    return this.compile(template, { ...this.props, styles });
   }
 }
-
 export default MessageInput;

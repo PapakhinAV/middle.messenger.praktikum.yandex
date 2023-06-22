@@ -1,56 +1,86 @@
-import Block from '../../core/Block'
-import template from './personalInfo.hbs'
-import {LinkButton, Button, Avatar} from "../../components";
-import {ERoutes} from "../../ERoutes";
-import photo from '../../assets/svg/photo.svg'
-import RowInfo from "../../components/RowInfo";
-class Authorization extends Block {
-    constructor() {
-        super({});
-    }
-    init(){
-        this.children.avatar = new Avatar({
-            text: 'Иван',
-            iconPath: photo,
-        })
-        this.children.email = new RowInfo({
-            label: 'Почта',
-            value: 'pochta@yandex.ru',
-        })
-        this.children.login = new RowInfo({
-            label: 'Логин',
-            value: 'ivanivanov',
-        })
-        this.children.firstName = new RowInfo({
-            label: 'Имя',
-            value: 'Иван',
-        })
-        this.children.secondName = new RowInfo({
-            label: 'Фамилия',
-            value: 'Иванов',
-        })
-        this.children.chatName = new RowInfo({
-            label: 'Имя в чате',
-            value: 'Иван',
-        })
-        this.children.phone = new RowInfo({
-            label: 'Телефон',
-            value: '+7 (909) 967 30 30',
-        })
-        this.children.editButton = new LinkButton({
-            text: 'Изменить данные',
-            link: ERoutes.PROFILE_EDIT,
-        })
-        this.children.exitButton = new LinkButton({
-            text: 'Выйти',
-            link: ERoutes.LOGIN,
-        })
-    }
+import Block from '../../core/Block';
+import template from './personalInfo.hbs';
+import { Avatar, LinkButton } from '../../components';
+import { ERoutes } from '../../core/Router/ERoutes';
+import RowInfo from '../../components/RowInfo';
+import { withStore } from '../../core/Store';
+import AuthController from '../../controllers/AuthController';
+import router from '../../core/Router/Router';
+import { User } from '../../api/authApi';
+import styles from './personalInfoStyles.module.pcss';
 
-    render(){
-        return this.compile(template, this.props)
-    }
+class ProfilePageBase extends Block<User> {
+  constructor(props:User) {
+    super(props);
+  }
 
+  init() {
+    AuthController.fetchUser();
+
+    this.children.avatar = new Avatar({
+      name: this.props.first_name,
+      iconPath: this.props.avatar,
+    });
+    this.children.email = new RowInfo({
+      label: 'Почта',
+      value: this.props.email,
+    });
+    this.children.login = new RowInfo({
+      label: 'Логин',
+      value: this.props.login,
+    });
+    this.children.firstName = new RowInfo({
+      label: 'Имя',
+      value: this.props.first_name,
+    });
+    this.children.secondName = new RowInfo({
+      label: 'Фамилия',
+      value: this.props.second_name,
+    });
+    this.children.chatName = new RowInfo({
+      label: 'Имя в чате',
+      value: this.props?.display_name || '',
+    });
+    this.children.phone = new RowInfo({
+      label: 'Телефон',
+      value: this.props.phone,
+    });
+    this.children.editButton = new LinkButton({
+      text: 'Изменить данные',
+      events: {
+        click: (e) => {
+          e.preventDefault();
+          router.go(ERoutes.PROFILE_EDIT);
+        },
+      },
+    });
+    this.children.backButton = new LinkButton({
+      text: 'Назад',
+      events: {
+        click: (e) => {
+          e.preventDefault();
+          router.back();
+        },
+      },
+    });
+    this.children.exitButton = new LinkButton({
+      text: 'Выйти',
+      events: {
+        click: (e) => {
+          e.preventDefault();
+          AuthController.logout();
+        },
+      },
+    });
+  }
+
+  render() {
+    return this.compile(template, { ...this.props, styles });
+  }
 }
 
-export default Authorization
+const withUser = withStore<User>((state) => ({ ...state.user }));
+
+const PersonalInfo = withUser(ProfilePageBase) as typeof Block;
+
+export default PersonalInfo;

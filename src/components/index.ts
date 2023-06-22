@@ -7,4 +7,4 @@ export { default as Avatar } from './Avatar';
 export { default as FileInput } from './FileInput';
 export { default as Messages } from './Messages';
 export { default as MessageInput } from './MessageInput';
-export { default as Contacts } from './Contacts';
+export { default as Contacts } from './ChatsList';

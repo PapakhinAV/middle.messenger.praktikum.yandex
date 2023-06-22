@@ -1,7 +1,7 @@
 import Block from '../../core/Block'
 import ErrorPageContent from "../../components/ErrorPageContent";
 import template from './page500.hbs'
-import {ERoutes} from "../../ERoutes";
+import {ERoutes} from "../../core/Router/ERoutes";
 class page404 extends Block {
     constructor() {
         super({});
@@ -13,7 +13,7 @@ class page404 extends Block {
             title: '500',
             description: 'Скоро починим...',
             buttonLink: ERoutes.HOME,
-            buttonText: 'Назад к чатам',
+            buttonText: 'Назад',
         });
     }
 

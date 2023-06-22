@@ -1,25 +1,35 @@
-<main class="personalInfoEdit__wrapper">
-    <div class="personalInfoEdit__card">
+<main class="{{styles.personalInfoEdit__wrapper}}">
+    <div class="{{styles.personalInfoEdit__card}}">
+        <div class="{{styles.personalInfoEdit__avatarBlock}}">
+            {{{photo}}}
+            {{{avatar}}}
+        </div>
         <form>
-            <div class="personalInfoEdit__avatarBlock">
-                {{{photo}}}
-                {{{avatar}}}
-            </div>
-            <div class="personalInfoEdit__info">
+            <div class="{{styles.personalInfoEdit__info}}">
                 {{{email}}}
                 {{{login}}}
                 {{{firstName}}}
                 {{{secondName}}}
                 {{{chatName}}}
                 {{{phone}}}
+            </div>
+            <div class="{{styles.personalInfoEdit__actions}}">
+                {{{saveButton}}}
+            </div>
+        </form>
+        <p class="{{styles.personalInfoEdit__title}}">Изменить пароль</p>
+        <form>
+            <div class="{{styles.personalInfoEdit__info}}">
                 {{{oldPassword}}}
                 {{{newPassword}}}
             </div>
-            <div class="personalInfoEdit__actions">
-                {{{saveButton}}}
-                {{{backButton}}}
+            <div class="{{styles.personalInfoEdit__actions}}">
+                {{{savePasswordButton}}}
             </div>
         </form>
+            <div class="{{styles.personalInfoEdit__actions}}">
+                {{{backButton}}}
+            </div>
     </div>
 </main>
 

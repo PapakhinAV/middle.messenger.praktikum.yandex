@@ -1,24 +1,41 @@
-import Block from '../../core/Block'
-import template from './messages.hbs'
+import Block from '../../core/Block';
+import template from './messages.hbs';
+import { withStore } from '../../core/Store';
+import { IMessage } from '../../controllers/MessagesController';
 
-export interface IMessage {
-    id: string
-    text: string
-    time: string
-    type: 'send' | "incoming"
+export interface IMessageWithRole extends IMessage {
+  role: 'receiver' | 'sender'
 }
 
 export interface IMessagesProps {
-    messages: IMessage[]
+  messages: IMessageWithRole[]
 }
- class Message extends Block<IMessagesProps> {
-    constructor(props: IMessagesProps) {
-        super( props);
-    }
+class MessageBase extends Block<IMessagesProps> {
+  constructor(props: IMessagesProps) {
+    super(props);
+  }
 
-    render(){
-        return this.compile(template, this.props)
-    }
+  render() {
+    return this.compile(template, this.props);
+  }
 }
 
-export default Message
+const withSelectedChat = withStore<IMessagesProps>((state) => {
+  const { selectedChat } = state;
+
+  if (!selectedChat?.id) {
+    return {
+      messages: [],
+    };
+  }
+  return {
+    messages: (state.messages || {})[selectedChat.id]?.map((message: IMessage) => {
+      const role = message.user_id === state.user.id ? 'sender' : 'receiver';
+      return { ...message, role };
+    }) || [],
+  };
+});
+
+const Message = withSelectedChat(MessageBase) as typeof Block;
+
+export default Message;

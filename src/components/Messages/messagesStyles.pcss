@@ -1,9 +1,10 @@
-.messages__container{
+.messages__container {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: 0 40px;
+    overflow-y: scroll; /* Добавляем прокрутку */
 }
 
 .message {
@@ -29,12 +30,11 @@
         color: var(--gray);
     }
 
-    &__send {
+    &__sender {
         align-self: flex-end;
     }
 
-    &__incoming {
+    &__receiver {
         align-self: flex-start;
-
     }
 }
