@@ -71,7 +71,7 @@ class Block<P extends Record<string, any> = any> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected componentDidUpdate(oldProps: Record<string, any>, newProps: Record<string, any>) {
+  protected componentDidUpdate(_oldProps: Record<string, any>, _newProps: Record<string, any>) {
     return true;
   }
 

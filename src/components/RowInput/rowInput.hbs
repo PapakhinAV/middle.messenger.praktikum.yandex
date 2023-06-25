@@ -1,9 +1,9 @@
-<div class="rowInput">
-    <div class="rowInput__title">{{placeholder}}</div>
-    <div class="rowInput__input">
+<div class="{{styles.rowInput}}">
+    <div class="{{styles.rowInput__title}}">{{placeholder}}</div>
+    <div class="{{styles.rowInput__input}}">
         {{{input}}}
         {{#if error}}
-            <div class="rowInput__error">{{error}}</div>
+            <div class="{{styles.rowInput__error}}">{{error}}</div>
         {{/if}}
     </div>
 </div>
