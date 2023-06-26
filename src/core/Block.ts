@@ -111,6 +111,10 @@ class Block<P extends Record<string, any> = any> {
     }
   }
 
+  public get isRendering() {
+    return this.rendering;
+  }
+
   protected render(): DocumentFragment {
     return new DocumentFragment();
   }

@@ -11,5 +11,7 @@
     "noUnusedParameters": true,
     "sourceMap": true,
     "strictNullChecks": true
-  }
+  },
+  "include": ["typing/*.d.ts", "src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
