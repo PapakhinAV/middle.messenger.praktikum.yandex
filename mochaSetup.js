@@ -1,12 +1,14 @@
 const { JSDOM } = require('jsdom');
 const Handlebars = require('handlebars');
 const fs = require('fs');
+const sinon = require('sinon');
 
 const { window } = new JSDOM('<div id="root"></div>', { url: 'http://localhost:3000/' });
 
 global.window = window;
 global.document = window.document;
 global.DocumentFragment = window.DocumentFragment;
+global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
 
 require.extensions['.hbs'] = function (module, filename) {
   const contents = fs.readFileSync(filename, 'utf-8');

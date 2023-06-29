@@ -23,4 +23,3 @@ export function merge(lhs: Indexed<any>, rhs: Indexed<any>): Indexed<any> {
 
   return lhs;
 }
-
