@@ -14,7 +14,7 @@ import router from '../../core/Router/Router';
 import UserController from '../../controllers/UserController';
 import { IChangePasswordData, IChangeUserData } from '../../api/userApi';
 import styles from './personalInfoEditStyles.module.pcss';
-import { isBlock } from '../../ typeGuards/isBlock';
+import { isBlock } from '../../typeGuards/isBlock';
 import { escapeHtml } from '../../utils/escapeHtml';
 
 class PersonalInfoEditBase extends Block<User> {

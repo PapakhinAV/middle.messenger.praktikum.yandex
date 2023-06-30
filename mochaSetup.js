@@ -9,6 +9,7 @@ global.window = window;
 global.document = window.document;
 global.DocumentFragment = window.DocumentFragment;
 global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
+global.FormData = window.FormData;
 
 require.extensions['.hbs'] = function (module, filename) {
   const contents = fs.readFileSync(filename, 'utf-8');

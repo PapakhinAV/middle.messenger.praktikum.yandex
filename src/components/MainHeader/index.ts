@@ -7,7 +7,7 @@ import addUser from '../../assets/svg/addUser.svg';
 import chatLogoDefault from '../../assets/svg/chatLogoDefault.svg';
 import { Button, FileInput } from '../index';
 import ChatsController from '../../controllers/ChatsController';
-import { isBlock } from '../../ typeGuards/isBlock';
+import { isBlock } from '../../typeGuards/isBlock';
 
 export interface IMainHeaderProps {
   title: string

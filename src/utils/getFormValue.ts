@@ -1,5 +1,5 @@
 import Block from '../core/Block';
-import { isBlock } from '../ typeGuards/isBlock';
+import { isBlock } from '../typeGuards/isBlock';
 
 export function getFormValue(children: Record<string, Block<any> | Block<any>[]>) {
   return Object.keys(children).reduce((acc: Record<string, any>, el:string) => {

@@ -9,7 +9,7 @@ import { getFormValue } from '../../utils/getFormValue';
 import styles from './authorizationStyles.module.pcss';
 import AuthController from '../../controllers/AuthController';
 import { SignupData } from '../../api/authApi';
-import { isBlock } from '../../ typeGuards/isBlock';
+import { isBlock } from '../../typeGuards/isBlock';
 import { escapeHtml } from '../../utils/escapeHtml';
 
 class Authorization extends Block {

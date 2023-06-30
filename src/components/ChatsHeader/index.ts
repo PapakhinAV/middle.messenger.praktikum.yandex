@@ -10,8 +10,8 @@ import addChat from '../../assets/svg/addChat.svg';
 import { submitValidator } from '../../utils/submitValidator';
 import ChatsController from '../../controllers/ChatsController';
 import { getFormValue } from '../../utils/getFormValue';
-import { isICreateChat } from '../../ typeGuards/isICreateChat';
-import { isBlock } from '../../ typeGuards/isBlock';
+import { isICreateChat } from '../../typeGuards/isICreateChat';
+import { isBlock } from '../../typeGuards/isBlock';
 import { escapeHtml } from '../../utils/escapeHtml';
 
 export interface IChatsHeaderProps {
