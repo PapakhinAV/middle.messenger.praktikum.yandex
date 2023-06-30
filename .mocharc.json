@@ -1,0 +1,10 @@
+{
+  "require": [
+    "ts-node/register",
+    "./mochaSetup.js"
+  ],
+  "spec": "src/**/*.test.ts",
+  "extension": ["ts"],
+  "watch-files": ["src/**/*.ts"],
+  "recursive": true
+}

@@ -5,6 +5,7 @@ import { ERoutes } from './core/Router/ERoutes';
 import { Router } from './core/Router';
 import AuthController from './controllers/AuthController';
 import { store } from './core/Store';
+import './styles/styles.pcss';
 
 window.addEventListener('DOMContentLoaded', async () => {
   Router

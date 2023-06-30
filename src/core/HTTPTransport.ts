@@ -66,11 +66,10 @@ class HTTPTransport {
         }
       };
 
-      xhr.onabort = reject;
-      xhr.onerror = reject;
-
+      xhr.onabort = () => reject(new Error('Request aborted'));
+      xhr.onerror = () => reject(new Error('Network error'));
       xhr.timeout = timeout;
-      xhr.ontimeout = reject;
+      xhr.ontimeout = () => reject(new Error('Request timeout'));
 
       if (method === this.METHODS.GET || !data) {
         xhr.send();

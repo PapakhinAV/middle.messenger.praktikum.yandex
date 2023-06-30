@@ -12,7 +12,7 @@ import styles from './homePage.module.pcss';
 import MainHeader from '../../components/MainHeader';
 import ChatsHeader from '../../components/ChatsHeader';
 import ChatsController from '../../controllers/ChatsController';
-import { isBlock } from '../../ typeGuards/isBlock';
+import { isBlock } from '../../typeGuards/isBlock';
 import MessagesController from '../../controllers/MessagesController';
 import { EStoreFields } from '../../core/Store/Store';
 import { withStore } from '../../core/Store';

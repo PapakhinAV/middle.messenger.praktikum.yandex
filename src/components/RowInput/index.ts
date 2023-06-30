@@ -1,6 +1,7 @@
-import Block from '../../core/Block'
-import template from './rowInput.hbs'
-import {SimpleInput} from "../";
+import Block from '../../core/Block';
+import template from './rowInput.hbs';
+import { SimpleInput } from '..';
+import styles from './rowInputStyles.module.pcss';
 
 interface IRowInputProps {
     placeholder?: string
@@ -15,22 +16,23 @@ interface IRowInputProps {
     }
 
 }
- class RowInput extends Block<IRowInputProps> {
-    constructor(props: IRowInputProps) {
-        super( props);
-    }
+class RowInput extends Block<IRowInputProps> {
+  constructor(props: IRowInputProps) {
+    super(props);
+  }
 
-     init(){
-         this.children.input = new SimpleInput({
-             name: this.props.name,
-             type: this.props.type,
-             value: this.props.value,
-             required: this.props.required
-         });
-     }
-    render(){
-        return this.compile(template, this.props)
-    }
+  init() {
+    this.children.input = new SimpleInput({
+      name: this.props.name,
+      type: this.props.type,
+      value: this.props.value,
+      required: this.props.required,
+    });
+  }
+
+  render() {
+    return this.compile(template, { ...this.props, styles });
+  }
 }
 
-export default RowInput
+export default RowInput;

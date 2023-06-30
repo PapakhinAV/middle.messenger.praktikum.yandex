@@ -1,4 +1,4 @@
-function isSimpleType(value: any): boolean {
+export function isSimpleType(value: any): boolean {
   const type = typeof value;
   return (
     type === 'string'

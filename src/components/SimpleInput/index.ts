@@ -1,5 +1,6 @@
 import Block from '../../core/Block';
 import template from './simpleInput.hbs';
+import styles from './simpleInputStyles.module.pcss';
 
 interface ISimpleInputProps {
     name: string
@@ -20,7 +21,7 @@ class SimpleInput extends Block<ISimpleInputProps> {
   }
 
   render() {
-    return this.compile(template, this.props);
+    return this.compile(template, { ...this.props, styles });
   }
 }
 
